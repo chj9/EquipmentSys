@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.domain.RepairMapper">
+	<resultMap type="com.chen.model.Repair" id="backMap">	
+	 <id column="id" property="id" jdbcType="INTEGER"/>
+	 <result column="equipmentId" property="equipmentId" jdbcType="INTEGER"/>
+	 <result column="userMan" property="userMan" jdbcType="VARCHAR"/>
+	  <result column="repairMan" property="repairMan" jdbcType="VARCHAR"/>
+	 <result column="repairTime" property="repairTime" jdbcType="VARCHAR"/>
+	 <result column="finishTime" property="finishTime" jdbcType="VARCHAR"/>
+	 <result column="state" property="state" jdbcType="INTEGER"/>
+	  <result column="finishState" property="finishState" jdbcType="INTEGER"/>
+	</resultMap>
+    
+ <sql id="mainSql">
+ 	SELECT * FROM  t_repair p
+ </sql>   
+ 
+	<select id="findAll" resultMap="backMap">
+		<include refid="mainSql"/>
+	</select>
+	
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
+	   select * t_repair  from where id =#{id,jdbcType=INTEGER}
+	</select>
+	<!-- 保存部门信息 -->
+	 <insert id="insert" parameterType="com.chen.model.Repair" >
+    insert into t_repair (id, equipmentId,userMan,repairMan,repairTime,finishTime,state,finishState)
+    values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER},#{userMan,jdbcType=VARCHAR},
+    		#{repairMan,jdbcType=VARCHAR},#{repairTime,jdbcType=VARCHAR}, #{finishTime,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},#{finishState,jdbcType=INTEGER})
+  </insert>
+	
+	<insert id="insertSelective" parameterType="com.chen.model.Repair" >
+    insert into t_repair
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="equipmentId != null" >
+        equipmentId,
+      </if>
+      <if test="userMan != null" >
+        userMan,
+      </if>
+       <if test="repairMan != null" >
+        repairMan,
+      </if>
+      <if test="repairTime != null" >
+        repairTime,
+      </if>
+      <if test="finishTime != null" >
+        finishTime,
+      </if>
+       <if test="state != null" >
+        state,
+      </if>
+        <if test="finishState != null" >
+        finishState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentId != null" >
+        #{equipmentId,jdbcType=INTEGER},
+      </if>
+       <if test="userMan != null" >
+        #{userMan,jdbcType=VARCHAR},
+      </if>
+      <if test="repairMan != null" >
+        #{repairMan,jdbcType=VARCHAR},
+      </if>
+       <if test="repairTime != null" >
+        #{repairTime,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+        <if test="finishState != null" >
+        #{finishState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+	
+	<update id="updateByPrimaryKey" parameterType="com.chen.model.Repair" >
+    update t_repair
+    set id = #{id,jdbcType=INTEGER},
+   	  equipmentId = #{equipmentId,jdbcType=INTEGER},
+      userMan = #{userMan,jdbcType=VARCHAR},
+      repairMan = #{repairMan,jdbcType=VARCHAR},
+      repairTime = #{repairTime,jdbcType=VARCHAR},
+      finishTime = #{finishTime,jdbcType=VARCHAR},
+    	  state = #{state,jdbcType=INTEGER},
+       finishState = #{finishState,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+	
+	 <update id="updateByPrimaryKeySelective" parameterType="com.chen.model.Repair" >
+    update t_repair
+    <set >
+      <if test="id != null" >
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentId != null" >
+        equipmentId = #{equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="userMan != null" >
+        userMan = #{userMan,jdbcType=VARCHAR},
+      </if>
+        <if test="repairMan != null" >
+        repairMan = #{repairMan,jdbcType=VARCHAR},
+      </if>
+      <if test="repairTime != null" >
+        repairTime = #{repairTime,jdbcType=VARCHAR},
+      </if>
+        <if test="finishTime != null" >
+        finishTime = #{finishTime,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+       <if test="finishState != null" >
+        finishState = #{finishState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_repair
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+	
+	
+	<delete id="deleteByIds" parameterType="Object[]">
+		delete from  t_repair where id in <foreach index="index" item="item" collection="array" separator="," open="(" close=")" >#{item}</foreach>
+	</delete>
+	 <!-- 查询总条数 ，结合分页使用-->
+	<select id="count" resultType="INTEGER">
+		SELECT COUNT(*) AS C FROM  t_repair p
+	</select>
+	<!-- 分页查询 -->
+	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
+		<include refid="mainSql"/>
+ 		   limit ${start},${rows}
+	</select>
+</mapper>

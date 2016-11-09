@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.domain.UserMapper">
+	<resultMap type="com.chen.model.User" id="backMap">	
+	   <id column="id" property="id" jdbcType="INTEGER" />
+	   <result column="password" property="password" jdbcType="VARCHAR" />
+	    <result column="userName" property="userName" jdbcType="VARCHAR" />
+	   <result column="trueName" property="trueName" jdbcType="VARCHAR" />
+	   <result column="roleId" property="roleId" jdbcType="INTEGER" />
+	   <result column="roleName" property="roleName" jdbcType="VARCHAR" />
+	   <result column="deptId" property="deptId" jdbcType="INTEGER"/>
+	   <result column="deptName" property="deptName" jdbcType="VARCHAR"/>
+	   <result column="regtime" property="regtime" jdbcType="VARCHAR"/>
+	</resultMap>
+  
+	<sql id="Base_Column_List" >
+    u.id,u.userName, u.password, u.trueName, u.roleId,u.regtime,r.roleName, u.deptId, d.deptName
+	</sql> 
+	<sql id="mainSql">
+ 	SELECT 
+	 <include refid="Base_Column_List"/>
+ 	FROM  t_user u,t_department  d,t_role  r
+ 	</sql>   
+	<select id="findAll" resultMap="backMap">
+		<include refid="mainSql"/>
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
+	   <include refid="mainSql"/>
+	   where userName =#{userName,jdbcType=VARCHAR} and password =#{password,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="login" parameterType="com.chen.model.User" resultMap="backMap">
+	   <include refid="mainSql"/>
+	    where u.userName =#{userName,jdbcType=VARCHAR} and u.password =#{password,jdbcType=VARCHAR}
+	</select>
+	<!-- 保存部门信息 -->
+	 <insert id="insert" parameterType="com.chen.model.User" >
+    insert into t_user (id, userName,password,trueName,roleName,deptId,deptName)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
+    		#{trueName,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR},#{deptId,jdbcType=INTEGER})
+  </insert>
+	
+	<insert id="insertSelective" parameterType="com.chen.model.User" >
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+       <if test="trueName != null" >
+        trueName,
+      </if>
+      <if test="roleId != null" >
+        roleId,
+      </if>
+      <if test="deptId != null" >
+        deptId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+       <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="trueName != null" >
+        #{trueName,jdbcType=VARCHAR},
+      </if>
+       <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=INTEGER},
+      </if>
+    
+    </trim>
+  </insert>
+  
+<update id="updateByPrimaryKey" parameterType="com.chen.model.User" >
+    update t_user
+    set id = #{id,jdbcType=INTEGER},
+   	   userName = #{userName,jdbcType=VARCHAR},
+     	 password = #{password,jdbcType=VARCHAR},
+      	trueName = #{trueName,jdbcType=VARCHAR},
+     	 roleName = #{roleName,jdbcType=VARCHAR},
+     	 deptId = #{deptId,jdbcType=INTEGER},
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.chen.model.User" >
+    update t_user
+    <set >
+		<if test="id != null and id!=''" >
+       			 id = #{id,jdbcType=INTEGER},
+     	</if>
+     	 <if test="userName != null  and userName!=''" >
+      			 userName = #{userName,jdbcType=VARCHAR},
+     	</if>
+      	<if test="password != null  and password!=''" >
+      			 password = #{password,jdbcType=VARCHAR},
+     	</if>
+      	<if test="trueName != null and trueName!=''" >
+       			 trueName = #{trueName,jdbcType=VARCHAR},
+     	</if>
+     	<if test="roleId!=null and roleId!=''">
+     		  roleId = #{roleId,jdbcType=INTEGER},
+     	</if>
+     	 <if test="deptId != null and deptId!=''" >
+      			deptId =  #{deptId,jdbcType=INTEGER},
+     	</if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+		delete from t_user   where id = #{id,jdbcType=INTEGER}
+  </delete>
+	
+	<delete id="deleteByIds" parameterType="Object[]">
+		delete from  t_user where id in <foreach index="index" item="item" collection="array" separator="," open="(" close=")" >#{item}</foreach>
+	</delete>
+	 <!-- 查询总条数 ，结合分页使用-->
+	<select id="count" resultType="INTEGER" parameterType="com.chen.model.User">
+		SELECT COUNT(*) AS C FROM  t_user AS u,t_department AS d,t_role AS r
+		<where>
+			 <if test="id != null and id!=''" >
+       			and u.id = #{id,jdbcType=INTEGER}
+     		 </if>
+     	 	<if test="userName != null  and userName!=''" >
+      			and u.userName = #{userName,jdbcType=VARCHAR}
+     		 </if>
+      		 <if test="password != null  and password!=''" >
+      			and u.password = #{password,jdbcType=VARCHAR}
+     		 </if>
+      		<if test="trueName != null and trueName!=''" >
+       			and u.trueName = #{trueName,jdbcType=VARCHAR}
+     		 </if>
+     		 <if test="roleId!=null and roleId!=''">
+     		 	and u.roleId = #{roleId,jdbcType=INTEGER}
+     		 </if>
+     		  <if test="roleName != null and roleName!=''" >
+      			and r.roleName = #{roleName,jdbcType=VARCHAR}
+     		 </if>
+     		 <if test="deptId != null and deptId!=''" >
+      			 and u.deptId =  #{deptId,jdbcType=INTEGER}
+     		 </if>
+     		 <if test="deptName!=null and deptName!=''">
+     		 	and d.deptName = #{deptName,jdbcType=VARCHAR}
+     		 </if>
+     		  and u.roleId = r.id and u.deptId=d.id
+		</where>
+	</select>
+	<!-- 分页查询 -->
+	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
+		<include refid="mainSql"/>
+		<where>
+			 <if test="param.id != null and param.id!=''" >
+       			and u.id = #{param.id,jdbcType=INTEGER}
+     		 </if>
+     	  	 <if test="param.userName != null and param.userName!=''" >
+      			and u.userName = #{param.userName,jdbcType=VARCHAR}
+     		 </if>
+      		 <if test="param.password != null and param.password!=''" >
+      			and u.password = #{param.password,jdbcType=VARCHAR}
+     		 </if>
+      		<if test="param.trueName != null and param.trueName!=''" >
+       			and u.trueName = #{param.trueName,jdbcType=VARCHAR}
+     		 </if>
+     		 <if test="param.roleId!=null and param.roleId!=''">
+     		 	and u.roleId = #{param.roleId,jdbcType=INTEGER}
+     		 </if>
+     		  <if test="param.roleName != null and param.roleName!=''" >
+      			and r.roleName = #{param.roleName,jdbcType=VARCHAR}
+     		 </if>
+     		 <if test="param.deptId != null and param.deptId!=''" >
+      			 and u.deptId =  #{param.deptId,jdbcType=INTEGER}
+     		 </if>
+     		 <if test="param.deptName!=null and param.deptName!=''">
+     		 	and d.deptName = #{param.deptName,jdbcType=VARCHAR}
+     		 </if>
+     		 and u.roleId = r.id and u.deptId=d.id
+		</where>
+ 		       limit ${start},${rows}
+	</select>
+</mapper>
+
+

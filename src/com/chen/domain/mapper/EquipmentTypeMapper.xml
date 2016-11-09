@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.domain.EquipmentTypeMapper">
+	<resultMap type="com.chen.model.EquipmentType" id="backMap">	
+	 <id column="id" property="id" jdbcType="INTEGER"/>
+	 <result column="typeName" property="typeName" jdbcType="VARCHAR"/>
+	 <result column="remark" property="remark" jdbcType="VARCHAR"/>
+	</resultMap>
+    
+ <sql id="mainSql">
+ 	SELECT * FROM  t_equipmenttype p
+ </sql>   
+ 
+	<select id="findAll" resultMap="backMap">
+		<include refid="mainSql"/>
+	</select>
+	
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
+	   select *  from t_equipmenttype  where id =#{id,jdbcType=INTEGER}
+	</select>
+	<!-- 保存部门信息 -->
+	 <insert id="insert" parameterType="com.chen.model.EquipmentType" >
+    insert into t_equipmenttype (id, typeName, remark)
+    values (#{id,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+	
+	<insert id="insertSelective" parameterType="com.chen.model.EquipmentType" >
+    insert into t_equipmenttype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="typeName != null" >
+        typeName,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+	
+	<update id="updateByPrimaryKey" parameterType="com.chen.model.EquipmentType" >
+    update t_equipmenttype
+    set id = #{id,jdbcType=INTEGER},
+      typeName = #{typeName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+	
+	 <update id="updateByPrimaryKeySelective" parameterType="com.chen.model.EquipmentType" >
+    update t_equipmenttype
+    <set >
+      <if test="id != null" >
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null" >
+        typeName = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_equipmenttype
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+	
+	
+	<delete id="deleteByIds" parameterType="Object[]">
+		delete from  t_equipmenttype where id in <foreach index="index" item="item" collection="array" separator="," open="(" close=")" >#{item}</foreach>
+	</delete>
+	 <!-- 查询总条数 ，结合分页使用-->
+	<select id="count" resultType="INTEGER">
+		SELECT COUNT(*) AS C FROM  t_department p
+	</select>
+	<!-- 分页查询 -->
+	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
+		<include refid="mainSql"/>
+ 		   limit ${start},${rows}
+	</select>
+</mapper>
+
+

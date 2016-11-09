@@ -1,4 +1,5 @@
  $(function(){
+	//部门下拉框
 	$.ajax({
 		type:"post",
 		url:tem+'department/getDeptListOption.do',	
@@ -24,28 +25,28 @@
 		}
 	});
 //	
-//	
-//	$.ajax({
-//		type:"post",
-//		url:tem+'cmd/getListOption',	
-//		dataType:"json",
-//		success:function(data){
-//	//角色
-//			$("#role").combobox({
-//				data:data,
-//				panelHeight:'120px',
-//				valueField: "imsi",
-//				textField: "imsi",
-//				multiple:false,//禁止多选
-//			});
-//	//角色
-//			$("#roleId").combobox({
-//				data:data,
-//				panelHeight:'120px',
-//				valueField: "pjId",
-//				textField: "pjId",
-//				multiple:false,//禁止多选
-//			});
-//		}
-//	});
+//	角色下拉框
+	$.ajax({
+		type:"post",
+		url:tem+'cmd/geRoletListOption',	
+		dataType:"json",
+		success:function(data){
+	//角色
+			$("#role").combobox({
+				data:data,
+				panelHeight:'120px',
+				valueField: "imsi",
+				textField: "imsi",
+				multiple:false,//禁止多选
+			});
+	//角色
+			$("#roleId").combobox({
+				data:data,
+				panelHeight:'120px',
+				valueField: "pjId",
+				textField: "pjId",
+				multiple:false,//禁止多选
+			});
+		}
+	});
 });

@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.chen.domain.EquipmentTypeMapper;
 import com.chen.model.EquipmentType;
-import com.chen.service.EquipmentTypeService;
+import com.chen.service.IEquipmentTypeService;
 
 
 
 @Service("equipmentTypeService")
-public class EquipmentTypeServiceImpl implements EquipmentTypeService{
+public class EquipmentTypeServiceImpl implements IEquipmentTypeService{
 
 	@Autowired
 	private EquipmentTypeMapper equipmentTypeDao;

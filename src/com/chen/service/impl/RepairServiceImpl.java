@@ -8,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chen.domain.RepairMapper;
-
 import com.chen.model.Repair;
-import com.chen.service.RepairService;
+import com.chen.service.IRepairService;
 
 
 
 @Service("repairService")
-public class RepairServiceImpl implements RepairService{
+public class RepairServiceImpl implements IRepairService{
 
 	@Autowired
 	private RepairMapper repairDao;

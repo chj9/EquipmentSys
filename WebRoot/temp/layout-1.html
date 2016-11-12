@@ -70,7 +70,8 @@
 	$('#wu-category-tree').tree({
 		url:'temp/menu.json',
 		onClick:function(node){
-			alert(node.text);
+			
+			alert(node.attributes.url);
 		}
 	});
 

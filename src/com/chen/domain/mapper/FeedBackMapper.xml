@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.domain.FeedBackMapper">
+	<resultMap type="com.chen.model.FeedBackBean" id="backMap">	
+	   <id column="id" property="id" jdbcType="INTEGER" />
+	   <result column="feedback" property="feedback" jdbcType="VARCHAR" />
+	    <result column="userName" property="userName" jdbcType="VARCHAR" />
+	    <result column="feedtime" property="feedtime" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    id,feedback,userName,feedtime
+	</sql> 
+	<sql id="mainSql">
+ 	SELECT 
+	 <include refid="Base_Column_List"/>
+ 	FROM t_feedback  f
+ 	</sql>
+	<!-- 保存反馈信息 -->
+	<insert id="insertSelective" parameterType="com.chen.model.FeedBackBean" >
+    insert into t_feedback
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="feedback != null and feedback!=''" >
+        feedback,
+      </if>
+      <if test="userName != null and userName!=''" >
+        userName,
+      </if>
+       <if test="feedtime != null and feedtime!=''" >
+        feedtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="feedback != null and feedback!=''" >
+        #{feedback,jdbcType=VARCHAR},
+      </if>
+       <if test="userName != null and userName!=''" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="feedtime != null and feedtime!=''" >
+        #{feedtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+		delete from t_feedback  where id = #{id,jdbcType=INTEGER}
+  </delete>
+	 <!-- 查询总条数 ，结合分页使用-->
+	<select id="count" resultType="INTEGER" parameterType="com.chen.model.FeedBackBean">
+		SELECT COUNT(*) AS C FROM  t_role 
+		<where>
+			 <if test="id != null" >
+       			and id = #{id,jdbcType=INTEGER}
+     		 </if>
+     	 	<if test="feedback != null  and feedback!=''" >
+      			and feedback = #{feedback,jdbcType=VARCHAR}
+     		 </if>
+      		 <if test="userName != null  and userName!=''" >
+      			and userName = #{userName,jdbcType=VARCHAR}
+     		 </if>
+      			 <if test="timesta!=null and timesta!='' and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(feedtime,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="timesta!=null and timesta!='' and ( timeend==null || timeend=='')">
+     		 	and DATE_FORMAT(feedtime,'%Y-%m-%d') &gt;=#{timesta,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="(timesta==null || timesta=='') and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(feedtime,'%Y-%m-%d') &lt;= #{timeend,jdbcType=VARCHAR}
+     		 </if>
+		</where>
+	</select>
+	<!-- 分页查询 -->
+	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
+		<include refid="mainSql"/>
+		<where>
+			 <if test="param.id != null " >
+       			and id = #{param.id,jdbcType=INTEGER}
+     		 </if>
+     	  	 <if test="param.roleName != null and param.roleName!=''" >
+      			and feedback = #{param.feedback,jdbcType=VARCHAR}
+     		 </if>
+      		 <if test="param.create_at != null and param.create_at!=''" >
+      			and userName = #{param.userName,jdbcType=VARCHAR}
+     		 </if>
+     		 <if test="param.timesta!=null and param.timesta!='' and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(feedtime,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{param.timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="param.timesta!=null and param.timesta!='' and ( param.timeend==null || param.timeend=='')">
+     		 	and DATE_FORMAT(feedtime,'%Y-%m-%d') &gt;=#{param.timesta,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="(param.timesta==null || param.timesta=='') and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(feedtime,'%Y-%m-%d') &lt;= #{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+		</where>
+ 		       limit ${start},${rows}
+	</select>
+</mapper>

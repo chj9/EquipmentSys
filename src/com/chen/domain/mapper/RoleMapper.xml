@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.domain.RoleMapper">
+	<resultMap type="com.chen.model.RoleBean" id="backMap">	
+	   <id column="id" property="id" jdbcType="INTEGER" />
+	   <result column="roleName" property="roleName" jdbcType="VARCHAR" />
+	     <result column="create_at" property="create_at" jdbcType="VARCHAR" />
+	    <result column="remark" property="remark" jdbcType="VARCHAR" />
+	    <result column="roleStatus" property="roleStatus" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    id,roleName,create_at,remark,roleStatus
+	</sql> 
+	<sql id="mainSql">
+ 	SELECT 
+	 <include refid="Base_Column_List"/>
+ 	FROM t_role  r
+ 	</sql>   
+	<select id="findAll" resultMap="backMap">
+		<include refid="mainSql"/>
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
+	   <include refid="mainSql"/>
+	   where id =#{id,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 保存部门信息 -->
+	<insert id="insertSelective" parameterType="com.chen.model.RoleBean" >
+    insert into t_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roleName != null and roleName!=''" >
+        roleName,
+      </if>
+      <if test="create_at != null and create_at!=''" >
+        create_at,
+      </if>
+       <if test="remark != null and remark!=''" >
+        remark,
+      </if>
+       <if test="roleStatus != null" >
+        roleStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null and roleName!=''" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+       <if test="create_at != null and create_at!=''" >
+        #{create_at,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null and remark!=''" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="roleStatus != null" >
+       	 #{roleStatus,jdbcType=INTEGER},
+     </if>
+    </trim>
+  </insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.chen.model.RoleBean" >
+    update t_role
+    <set >
+     	 <if test="roleName != null  and roleName!=''" >
+      			 roleName = #{roleName,jdbcType=VARCHAR},
+     	</if>
+      	<if test="create_at != null  and create_at!=''" >
+      			 create_at = #{create_at,jdbcType=VARCHAR},
+     	</if>
+      	<if test="remark != null and remark!=''" >
+       			 remark = #{remark,jdbcType=VARCHAR},
+     	</if>
+     	<if test="roleStatus != null" >
+       			 roleStatus = #{roleStatus,jdbcType=INTEGER},
+     	</if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+		delete from t_role  where id = #{id,jdbcType=INTEGER}
+  </delete>
+	
+	<delete id="deleteByIds" parameterType="Object[]">
+		delete from  t_role where id in <foreach index="index" item="item" collection="array" separator="," open="(" close=")" >#{item}</foreach>
+	</delete>
+	 <!-- 查询总条数 ，结合分页使用-->
+	<select id="count" resultType="INTEGER" parameterType="com.chen.model.RoleBean">
+		SELECT COUNT(*) AS C FROM  t_role 
+		<where>
+			 <if test="id != null" >
+       			and id = #{id,jdbcType=INTEGER}
+     		 </if>
+     	 	<if test="roleName != null  and roleName!=''" >
+      			and roleName = #{roleName,jdbcType=VARCHAR}
+     		 </if>
+      		 <if test="create_at != null  and create_at!=''" >
+      			and create_at = #{create_at,jdbcType=VARCHAR}
+     		 </if>
+      		<if test="remark != null and remark!=''" >
+       			and remark = #{remark,jdbcType=VARCHAR}
+     		 </if>
+     		 <if test="roleStatus != null" >
+      			and roleStatus = #{roleStatus,jdbcType=INTEGER}
+     		 </if>
+		</where>
+	</select>
+	<!-- 分页查询 -->
+	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
+		<include refid="mainSql"/>
+		<where>
+			 <if test="param.id != null " >
+       			and id = #{param.id,jdbcType=INTEGER}
+     		 </if>
+     	  	 <if test="param.roleName != null and param.roleName!=''" >
+      			and roleName = #{param.roleName,jdbcType=VARCHAR}
+     		 </if>
+      		 <if test="param.create_at != null and param.create_at!=''" >
+      			and create_at = #{param.create_at,jdbcType=VARCHAR}
+     		 </if>
+      		<if test="param.remark != null and param.remark!=''" >
+       			and remark = #{param.remark,jdbcType=VARCHAR}
+     		 </if>
+     		   <if test="param.timesta!=null and param.timesta!='' and ( param.timeend==null || param.timeend=='')">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d') &gt;=#{param.timesta,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="(param.timesta==null || param.timesta=='') and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d') &lt;= #{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+     		 <if test="param.roleStatus != null" >
+      			and roleStatus = #{param.roleStatus,jdbcType=INTEGER}
+     		 </if>
+		</where>
+ 		       limit ${start},${rows}
+	</select>
+</mapper>

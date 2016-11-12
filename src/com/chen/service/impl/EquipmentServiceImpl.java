@@ -6,6 +6,7 @@ import java.util.List;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,12 @@ import com.chen.domain.RepairMapper;
 import com.chen.model.Equipment;
 import com.chen.model.Repair;
 import com.chen.model.User;
-import com.chen.service.EquipmentService;
+import com.chen.service.IEquipmentService;
 
 
 
 @Service("equipmentService")
-public class EquipmentServiceImpl implements EquipmentService{
+public class EquipmentServiceImpl implements IEquipmentService{
 
 	@Autowired
 	private EquipmentMapper equipmentDao;

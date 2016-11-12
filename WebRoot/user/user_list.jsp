@@ -15,19 +15,19 @@
         <div class="wu-toolbar-search">
         <form id="sousuo" method="post" novalidate style="margin:0;padding:0px 0px">
             <label>起始时间：</label>
-            <input id="timesta" class="easyui-datebox" style="width:100px">
+            <input id="timesta" name="timesta" class="easyui-datebox" style="width:100px">
             <label>结束时间：</label>
-            <input id="timeend" class="easyui-datebox" style="width:100px">
+            <input id="timeend" name="timeend" class="easyui-datebox" style="width:100px">
             <label>部门：</label> 
-            <select id="dept" class="easyui-combobox" panelHeight="auto" style="width:80px">
+            <select id="dept" name="deptId" class="easyui-combobox" panelHeight="auto" style="width:80px">
             </select>
             <label>用户组：</label> 
-            <select id="role" class="easyui-combobox" panelHeight="auto" style="width:80px">
+            <select id="role" name="roleId" class="easyui-combobox" panelHeight="auto" style="width:80px">
             </select>
             <label>用户名：</label>
-            <input id="userName"  style="width:100px">
-            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="sousuoData()">开始检索</a>
-        	 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" onclick="javascript:$('#user_table').datagrid('reload')">重新加载</a>
+            <input id="userName" name="userName"  style="width:100px">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" onclick="sousuoData()">开始检索</a>
+        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-refresh" onclick="javascript:$('#user_table').datagrid('reload')">重新加载</a>
 
          </form>
         </div>
@@ -36,37 +36,34 @@
     <table id="user_table" class="easyui-datagrid" toolbar="#wu-toolbar-2"></table>
 </div>
 <!-- Begin of easyui-dialog -->
-	<!--  <form id="wu-form-2" method="post"> -->
-   <div id="userdlg" class="easyui-dialog" style="width:300px;height:auto;" closed="true" buttons="#dlg-buttons">
+   <div id="userdlg" class="easyui-dialog" style="width:300px;height:auto;"  data-options="iconCls:'icon-save',modal:true" closed=true buttons="#dlg-buttons">
         <form id="userfm" method="post" novalidate style="margin:0;padding:20px 50px">
             <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">用户信息</div>
-          
+          	<input name="id"  class="easyui-textbox" type="hidden">
             <div style="margin-bottom:10px">
-            <label>用户名:</label> 
-                <input name="userName"  class="easyui-textbox"  style="width:100px">
+            <label>账号:&nbsp</label> 
+                <input name="userName" required="true" class="easyui-textbox"  style="width:135px">
             </div>
              <div style="margin-bottom:10px">
-             <label>密码:</label> 
-                <input name="password"  class="easyui-textbox"  style="width:100px">
+             <label>密码:&nbsp</label> 
+                <input name="password" required="true" class="easyui-textbox"  style="width:135px">
             </div>
              <div style="margin-bottom:10px">
-             <label>别名:</label> 
-                <input name="trueName" class="easyui-textbox"   style="width:100px">
+             <label>别名:&nbsp</label> 
+                <input name="trueName" class="easyui-textbox"   style="width:135px">
             </div>
             <div style="margin-bottom:10px">
-            <label>部门:</label> 
- 				<select id="deptId" name="deptId"  class="easyui-combobox" style="width:100px"></select>
+            <label>部门:&nbsp</label> 
+ 				<select id="deptId" name="deptId" required="true" class="easyui-combobox" style="width:140px"></select>
             </div>
              <div style="margin-bottom:10px">
-             <label>角色:</label> 
-                <select id="roleId" name="roleId"  class="easyui-combobox" style="width:100px"></select>
+             <label>角色:&nbsp</label> 
+                <select id="roleId" name="roleId" required="true" class="easyui-combobox" style="width:140px"></select>
             </div>
         </form>
+      <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'"  onclick="saveUser()">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="javascript:$('#userdlg').dialog('close')">取消</a>
+   	 </div>
     </div>
-     <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()" style="width:80px;">保存</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#userdlg').dialog('close')" style="width:80px;">取消</a>
-    </div>
-    
-    
 <!-- End of easyui-dialog -->

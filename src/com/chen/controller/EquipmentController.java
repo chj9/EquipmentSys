@@ -20,9 +20,9 @@ import com.chen.model.Equipment;
 import com.chen.model.EquipmentType;
 import com.chen.model.Repair;
 import com.chen.model.User;
-import com.chen.service.EquipmentService;
-import com.chen.service.EquipmentTypeService;
-import com.chen.service.RepairService;
+import com.chen.service.IEquipmentService;
+import com.chen.service.IEquipmentTypeService;
+import com.chen.service.IRepairService;
 import com.chen.util.PageUtil;
 import com.chen.util.ResponseUtil;
 import com.chen.util.StringUtil;
@@ -38,13 +38,13 @@ import com.chen.util.StringUtil;
 public class EquipmentController {
 
 	@Autowired
-	private EquipmentService equipmentService;
+	private IEquipmentService equipmentService;
 	
 	@Autowired
-	private EquipmentTypeService equipmentTypeService;
+	private IEquipmentTypeService equipmentTypeService;
 	
 	@Autowired
-	private RepairService repairService;
+	private IRepairService repairService;
 	
 	@RequestMapping("/list")
 	public ModelAndView list(@RequestParam(value="page",required=false)String page,Equipment s_equipment,HttpServletRequest request){

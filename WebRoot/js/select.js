@@ -16,7 +16,7 @@
 			//部门
 			$("#deptId").combobox({
 		    	 data:data,
-		    	 panelHeight:'120px',
+		    	panelHeight:'120px',
 		        valueField: "id",
 		        textField: "deptName",
 		        multiple:false,//禁止多选
@@ -28,25 +28,34 @@
 //	角色下拉框
 	$.ajax({
 		type:"post",
-		url:tem+'cmd/geRoletListOption',	
+		url:tem+'role/geRoletListOption.do',	
 		dataType:"json",
 		success:function(data){
 	//角色
 			$("#role").combobox({
 				data:data,
 				panelHeight:'120px',
-				valueField: "imsi",
-				textField: "imsi",
+				//panelWidth:'110px',
+				valueField: "id",
+				textField: "roleName",
 				multiple:false,//禁止多选
 			});
-	//角色
+	//角色rolename
 			$("#roleId").combobox({
 				data:data,
 				panelHeight:'120px',
-				valueField: "pjId",
-				textField: "pjId",
+				valueField: "id",
+				textField: "roleName",
+				multiple:false,//禁止多选
+			});
+			$("#rolename").combobox({
+				data:data,
+				panelHeight:'120px',
+				valueField: "roleName",
+				textField: "roleName",
 				multiple:false,//禁止多选
 			});
 		}
+		
 	});
 });

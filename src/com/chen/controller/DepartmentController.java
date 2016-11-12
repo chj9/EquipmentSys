@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.chen.model.Department;
-import com.chen.service.DepartmentService;
-import com.chen.service.UserService;
+import com.chen.service.IDepartmentService;
+import com.chen.service.IUserService;
 
 import com.chen.util.ResponseUtil;
 import com.chen.util.StringUtil;
@@ -33,10 +33,10 @@ public class DepartmentController {
 	
 	private static final Logger logger = LogManager.getLogger(DepartmentController.class);
 	@Autowired
-	private DepartmentService departmentService;
+	private IDepartmentService departmentService;
 	
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	
 	@RequestMapping("/list")
 	public void list(@RequestParam(value="page",required=false)String page,Department s_department,HttpServletRequest request){

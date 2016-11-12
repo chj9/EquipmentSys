@@ -3,17 +3,19 @@ package com.chen.service.impl;
 
 
 import java.util.List;
+
 import net.sf.json.JSONArray;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chen.domain.DepartmentMapper;
 import com.chen.model.Department;
-import com.chen.service.DepartmentService;
+import com.chen.service.IDepartmentService;
 import com.chen.util.PageUtil;
 
 @Service("departmentService")
-public class DepartmentServiceImpl implements DepartmentService{
+public class DepartmentServiceImpl implements IDepartmentService{
 
 	@Autowired
 	private DepartmentMapper departmentDao;

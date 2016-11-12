@@ -10,7 +10,7 @@ import com.chen.model.Department;
 
 
 
-public interface DepartmentService {
+public interface IDepartmentService {
 
 	public List<Department> findAll();
 	

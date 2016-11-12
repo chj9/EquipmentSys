@@ -12,13 +12,14 @@ import org.springframework.stereotype.Service;
 import com.chen.domain.UserMapper;
 import com.chen.model.PageBean;
 import com.chen.model.User;
-import com.chen.service.UserService;
+import com.chen.service.IUserService;
+import com.chen.util.DateUtil;
 import com.chen.util.PageUtil;
 
 
 
 @Service("userService")
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements IUserService{
 
 	@Autowired
 	private UserMapper userDao;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService{
 		List<User> list = userDao.login(user);
 		for(User us:list){
 			user.setId(us.getId());
+			user.setTrueName(us.getTrueName());
 		}
 		return user;
 	}
@@ -69,6 +71,7 @@ public class UserServiceImpl implements UserService{
 			if(user==null){
 				return false;
 			}
+			user.setRegtime(DateUtil.getCurrentDateStr());
 			userDao.insertSelective(user);
 			return true;
 		} catch (Exception e) {

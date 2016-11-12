@@ -8,7 +8,7 @@ import com.chen.model.Equipment;
 
 
 
-public interface EquipmentService {
+public interface IEquipmentService {
 
 	public List<Equipment> findAll();
 	

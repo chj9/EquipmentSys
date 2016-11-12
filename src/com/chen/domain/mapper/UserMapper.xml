@@ -28,22 +28,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="mainSql"/>
 	</select>
 
-	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="backMap">
 	   <include refid="mainSql"/>
 	   where userName =#{userName,jdbcType=VARCHAR} and password =#{password,jdbcType=VARCHAR}
 	</select>
 	
 	<select id="login" parameterType="com.chen.model.User" resultMap="backMap">
-	   <include refid="mainSql"/>
+	  select u.id,u.userName,u.trueName,u.password FROM  t_user u
 	    where u.userName =#{userName,jdbcType=VARCHAR} and u.password =#{password,jdbcType=VARCHAR}
 	</select>
-	<!-- 保存部门信息 -->
-	 <insert id="insert" parameterType="com.chen.model.User" >
-    insert into t_user (id, userName,password,trueName,roleName,deptId,deptName)
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
-    		#{trueName,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR},#{deptId,jdbcType=INTEGER})
-  </insert>
-	
+	<!-- 保存用户信息 -->
 	<insert id="insertSelective" parameterType="com.chen.model.User" >
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -65,6 +59,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="deptId != null" >
         deptId,
       </if>
+       <if test="regtime != null" >
+        regtime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -85,21 +82,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="deptId != null" >
         #{deptId,jdbcType=INTEGER},
       </if>
-    
+        <if test="regtime != null" >
+        #{regtime,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  
-<update id="updateByPrimaryKey" parameterType="com.chen.model.User" >
-    update t_user
-    set id = #{id,jdbcType=INTEGER},
-   	   userName = #{userName,jdbcType=VARCHAR},
-     	 password = #{password,jdbcType=VARCHAR},
-      	trueName = #{trueName,jdbcType=VARCHAR},
-     	 roleName = #{roleName,jdbcType=VARCHAR},
-     	 deptId = #{deptId,jdbcType=INTEGER},
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-	
 	<update id="updateByPrimaryKeySelective" parameterType="com.chen.model.User" >
     update t_user
     <set >
@@ -160,7 +147,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      		 <if test="deptName!=null and deptName!=''">
      		 	and d.deptName = #{deptName,jdbcType=VARCHAR}
      		 </if>
-     		  and u.roleId = r.id and u.deptId=d.id
+     		 <if test="timesta!=null and timesta!='' and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(regtime,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="timesta!=null and timesta!='' and ( timeend==null || timeend=='')">
+     		 	and DATE_FORMAT(regtime,'%Y-%m-%d') &gt;=#{timesta,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="(timesta==null || timesta=='') and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(regtime,'%Y-%m-%d') &lt;= #{timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  and u.roleId = r.id and u.deptId=d.id and r.roleStatus=1
 		</where>
 	</select>
 	<!-- 分页查询 -->
@@ -191,7 +191,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      		 <if test="param.deptName!=null and param.deptName!=''">
      		 	and d.deptName = #{param.deptName,jdbcType=VARCHAR}
      		 </if>
-     		 and u.roleId = r.id and u.deptId=d.id
+     		  <if test="param.timesta!=null and param.timesta!='' and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(regtime,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{param.timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="param.timesta!=null and param.timesta!='' and ( param.timeend==null || param.timeend=='')">
+     		 	and DATE_FORMAT(regtime,'%Y-%m-%d') &gt;=#{param.timesta,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="(param.timesta==null || param.timesta=='') and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(regtime,'%Y-%m-%d') &lt;= #{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+     		 and u.roleId = r.id and u.deptId=d.id and r.roleStatus=1
 		</where>
  		       limit ${start},${rows}
 	</select>

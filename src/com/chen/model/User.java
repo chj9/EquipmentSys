@@ -21,7 +21,23 @@ public class User implements Serializable{
 	private String roleName; // 角色  1 管理员 2 使用者 3 维修者
 	private String deptName; //部门名称 班级则是班级名称
 	private String regtime;
+	//-------注册时间段,关联regtime---------
+	private String timesta; 
+	private String timeend;
+	//--------------------
 	
+	public String getTimesta() {
+		return timesta;
+	}
+	public void setTimesta(String timesta) {
+		this.timesta = timesta;
+	}
+	public String getTimeend() {
+		return timeend;
+	}
+	public void setTimeend(String timeend) {
+		this.timeend = timeend;
+	}
 	public String getRegtime() {
 		return regtime;
 	}

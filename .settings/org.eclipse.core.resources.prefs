@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//WebRoot/user/feedback.jsp=UTF-8
+encoding//WebRoot/user/role_list.jsp=UTF-8
 encoding//WebRoot/user/user_list.jsp=UTF-8
 encoding//src/com/chen/model/Equipment.java=UTF-8
 encoding//src/com/chen/util/StringUtil.java=UTF-8

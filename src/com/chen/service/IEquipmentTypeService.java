@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.chen.model.EquipmentType;
 
-public interface EquipmentTypeService {
+public interface IEquipmentTypeService {
 
 	public List<EquipmentType> findAll();
 	

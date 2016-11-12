@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.chen.model.EquipmentType;
-import com.chen.service.EquipmentService;
-import com.chen.service.EquipmentTypeService;
+import com.chen.service.IEquipmentService;
+import com.chen.service.IEquipmentTypeService;
 import com.chen.util.PageUtil;
 import com.chen.util.ResponseUtil;
 import com.chen.util.StringUtil;
@@ -35,10 +35,10 @@ import com.chen.util.StringUtil;
 public class EquipmentTypeController {
 
 	@Autowired
-	private EquipmentTypeService equipmentTypeService;
+	private IEquipmentTypeService equipmentTypeService;
 	
 	@Autowired
-	private EquipmentService equipmentService;
+	private IEquipmentService equipmentService;
 	
 	@RequestMapping("/list")
 	public ModelAndView list(@RequestParam(value="page",required=false)String page,EquipmentType s_equipmentType,HttpServletRequest request){

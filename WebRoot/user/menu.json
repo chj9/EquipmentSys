@@ -1,0 +1,40 @@
+[
+    {
+        "id": 1,
+        "text": "菜单管理",
+        "state": "",
+        "attributes": {
+            "url": "",
+            "icon": ""
+        },
+        "children": [
+            {
+                "id": 2,
+                "text": "角色管理",
+                "state": "",
+                "attributes": {
+                    "url": "datagrid.html",
+                    "icon": ""
+                }
+            },
+            {
+                "id": 3,
+                "text": "权限管理",
+                "state": "",
+                "attributes": {
+                    "url": "_content.html",
+                    "icon": ""
+                }
+            },
+            {
+                "id": 4,
+                "text": "角色回收",
+                "state": "",
+                "attributes": {
+                    "url": "_content.html",
+                    "icon": ""
+                }
+            }
+        ]
+    }
+]

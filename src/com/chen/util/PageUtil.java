@@ -59,6 +59,7 @@ public static <T> JSONObject ListBeanToJSON(List<T> list,Integer total){
 
 public static <T> JSONArray ListBeantoArray(List<T> list){
 	JSONArray rows = JSONArray.fromObject(list);
+	
 	return rows;
 }
 }

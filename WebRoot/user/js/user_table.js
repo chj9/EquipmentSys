@@ -84,7 +84,7 @@ function editUser (index) {
                 $('#userfm').form('load',row);
                 url = tem+'user/edit.do';
             }else{
-            	$.messager.alert("Confirm","请选择一行!");
+            	$.messager.alert("提示","请选择一行!");
             }
     	}
 function deleteUser(index){
@@ -112,7 +112,7 @@ function deleteUser(index){
 }
 
 function sousuoData(){
-	 url = tem+'cmd/getUserGameCmdBySelect';	 
+	 url = tem+'user/list.do';	 
 	 $('#sousuo').form('submit',{
 	     url: url,
 	     onSubmit: function(){

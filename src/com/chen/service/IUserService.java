@@ -7,7 +7,7 @@ import com.chen.model.User;
 
 
 
-public interface UserService {
+public interface IUserService {
 
 	public User login(User user);
 	

@@ -8,7 +8,7 @@ import com.chen.model.Repair;
 
 
 
-public interface RepairService {
+public interface IRepairService {
 
 	public List<Repair> findAll();
 	

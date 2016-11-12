@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.chen.model.PageBean;
 import com.chen.model.User;
-import com.chen.service.DepartmentService;
-import com.chen.service.UserService;
+import com.chen.service.IDepartmentService;
+import com.chen.service.IUserService;
 import com.chen.util.ResponseUtil;
 import com.mysql.jdbc.StringUtils;
 
@@ -32,10 +32,10 @@ public class UserController {
 	
 	private static final Logger logger = LogManager.getLogger(UserController.class);
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	
 	@Autowired
-	private DepartmentService departmentService;
+	private IDepartmentService departmentService;
 	
 	/**
 	 * 登陆
@@ -73,6 +73,7 @@ public class UserController {
 		if(session.getAttribute("currentUser")==null){
 			return "login";
 		}
+		System.out.println(user.getUserName());
 		JSONObject o =userService.getUserList(pageBean, user);
 		if(!StringUtils.isNullOrEmpty(o.getString("rows"))){
 			ResponseUtil.write(o, response);

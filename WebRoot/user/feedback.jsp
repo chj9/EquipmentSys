@@ -13,7 +13,7 @@
             </tr>
             <tr>
                 <td valign="top" align="right">反馈内容:</td>
-                <td><textarea id="feedtext" name="feedtext" required="true" rows="120" class="wu-textarea" style="height:250px;width:400px"></textarea></td>
+                <td><textarea id="feedtext" name="feedback" required="true" rows="120" class="wu-textarea" style="height:250px;width:400px"></textarea></td>
             </tr>
               <tr align="right">
                 <td ></td>
@@ -36,7 +36,7 @@
 	            $.messager.alert("提示",result.errorMsg);
 	          } else{
 	      		 $("#feedtext").val()=="";
-	      		 $.messager.alert("提示",result.Success);
+	      		 $.messager.alert("提示",result.success);
 	       }
 	    }
 	 });

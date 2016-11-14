@@ -2,8 +2,10 @@ package com.chen.model;
 
 import java.io.Serializable;
 
+import com.common.BaseBean;
 
-public class User implements Serializable{
+
+public class User extends BaseBean implements Serializable{
 
 	/**
 	 * 
@@ -22,21 +24,15 @@ public class User implements Serializable{
 	private String deptName; //部门名称 班级则是班级名称
 	private String regtime;
 	//-------注册时间段,关联regtime---------
-	private String timesta; 
-	private String timeend;
+
 	//--------------------
+	private Integer userSta; //1、有效用户 2、无效用户
 	
-	public String getTimesta() {
-		return timesta;
+	public Integer getUserSta() {
+		return userSta;
 	}
-	public void setTimesta(String timesta) {
-		this.timesta = timesta;
-	}
-	public String getTimeend() {
-		return timeend;
-	}
-	public void setTimeend(String timeend) {
-		this.timeend = timeend;
+	public void setUserSta(Integer userSta) {
+		this.userSta = userSta;
 	}
 	public String getRegtime() {
 		return regtime;

@@ -15,6 +15,7 @@ import com.chen.model.FeedBackBean;
 import com.chen.model.PageBean;
 import com.chen.model.RoleBean;
 import com.chen.service.IFeedBackService;
+import com.chen.util.DateUtil;
 import com.chen.util.PageUtil;
 
 @Service
@@ -30,6 +31,7 @@ public class FeedBackServiceImpl implements IFeedBackService{
 			if(feedback==null){
 				return false;
 			}
+			feedback.setFeedtime(DateUtil.getCurrentDateStr());
 			service.insertSelective(feedback);
 			return true;
 		} catch (Exception e) {

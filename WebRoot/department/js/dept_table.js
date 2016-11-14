@@ -1,11 +1,10 @@
 $(function(){
-	$('#user_table').addClass("easyui-textbox");
-	loaddata();
+	load_dept_data();
 });
 
-function loaddata(){
-	$('#user_table').datagrid({
-		url:tem+'user/list.do',
+function load_dept_data(){
+	$('#dept_table').datagrid({
+		url:tem+'department/list.do',
 		queryParams:{userSta:1},
 		method: 'POST',
 		rownumbers:true,
@@ -17,37 +16,24 @@ function loaddata(){
 		fit:true,
 		pageList: [20, 30, 50, 80, 100],  
 		columns:[[
-			{ field:'id',title:'用户ID',checkbox:true,width:100},
-			{ field:'deptId'},
-			{ field:'roleId'},
-			{ field:'userName',title:'账户',width:80, align: 'left'},
-			{ field:'password',title:'密码',width:80, align: 'left'},
-			{ field:'trueName',title:'别名',width:80, align: 'left'},
-			{ field:'roleName',title:'权限',width:80, align: 'left'},
-			{ field:'deptName',title:'所属部门',width:80, align: 'left'},
-			{ field:'regtime',title:'注册时间',width:120, align: 'left'},
-			{ field:'cmd',title:'操作',width:80,formatter:formatOper, align: 'left'}
+			{ field:'id',title:'部门ID',checkbox:true,width:80},
+			{ field:'deptName',title:'部门名称',width:150, align: 'left'},
+			{ field:'remark',title:'备注',width:200, align: 'left'},
+			{ field:'create_at',title:'创建时间',width:200, align: 'left'},
+			{ field:'cmd',title:'操作',width:100,formatter:formatdept, align: 'left'}
 		]],
 		onBeforeLoad: function (param) {
 			   var timesta = $("#timesta").val(); //开始时间
 			   var timeend = $("#timeend").val(); //结束时间
-			   var depa =$("#dept").val();  //获取deptId
-			   var role =$("#role").val(); //获取roleId
-			   var name =$("#userName").val(); //用户名
+			   var deptName =$("#deptName").val(); //用户名
 			   param.timesta = timesta;
 			   param.timeend = timeend;
-			   if(depa!=0)param.deptId = depa;
-			   if(role!=0)param.roleId = role;
-			   param.userName = name;
-			},
-	 onLoadSuccess:function(data){  
-			$("#user_table").datagrid("hideColumn", "deptId");
-			$("#user_table").datagrid("hideColumn", "roleId");
-	 		}
+			   param.deptName = deptName;
+			}
 	});
 }
 
-function addUser(){
+function adddept(){
 	$('#userdlg').dialog('open').dialog('center').dialog('setTitle','添加新客户');
     $('#userfm').form('clear');
 	url = tem+'user/addUser.do';
@@ -74,7 +60,7 @@ function saveUser(){
     });
 }
 
-function editUser (index) {
+function editdept (index) {
 
 	$('#userdlg').dialog('open').dialog('center').dialog('setTitle','编辑用户信息');
 
@@ -88,7 +74,7 @@ function editUser (index) {
             	$.messager.alert("提示","请选择一行!");
             }
     	}
-function deleteUser(index){
+function deletedept(index){
 	$('#user_table').datagrid('selectRow',index);// 关键在这里  
 	 var row = $('#user_table').datagrid('getSelected');
      if (row){
@@ -112,7 +98,7 @@ function deleteUser(index){
      }
 }
 
-function sousuouser(){
+function sousuoDept(){
 	  $('#sousuo').form('load',{userSta:1});
 	 url = tem+'user/list.do';	 
 	 $('#sousuo').form('submit',{
@@ -133,7 +119,7 @@ function sousuouser(){
 	    }
 	 });
 	}
-function editUs(index,userSta,str){
+function editStatus(index,userSta,str){
 	$('#user_table').datagrid('selectRow',index);// 关键在这里  
 	 var row = $('#user_table').datagrid('getSelected');
      if (row){
@@ -158,7 +144,7 @@ function editUs(index,userSta,str){
 }
 
 	//val指当前单元格的值,row,当前行对象,index当前行的索引
-	function formatOper(val,row,index){  
-	    return 	'<a href="javascript:void(0)" style="color: #0000FF" onclick="editUser('+index+')">编辑</a>||'+
-	    		'<a href="javascript:void(0)" style="color: #0000FF" onclick="editUs('+index+',0,\'确认删除用户么？\')">删除</a>';  
+	function formatdept(val,row,index){  
+	    return 	'<a href="javascript:void(0)" style="color: #0000FF" onclick="editdept('+index+')">编辑</a>||'+
+	    		'<a href="javascript:void(0)" style="color: #0000FF" onclick="editStatus('+index+',0,\'确认删除部门么？\')">删除</a>';  
 	}  

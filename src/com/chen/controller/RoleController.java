@@ -63,12 +63,23 @@ public class RoleController {
 	}
 	
 	@RequestMapping("/delete")
-	public void delete(@RequestParam(value="id")String id,HttpServletResponse response)throws Exception{
+	public void delete(@RequestParam(value="id")String id,HttpServletResponse response){
+		try {
+			
+			if(id==null){
+				ResponseUtil.write("{\"errorMsg\":\"删除失败,ID为空\"}", response);
+				return;
+			}	
 		boolean status = roleService.delete(Integer.parseInt(id));
 		if (status) {
 			ResponseUtil.write("{\"success\":\"删除成功\"}", response);
 		} else {
 			ResponseUtil.write("{\"errorMsg\":\"删除失败,该角色下还有用户\"}", response);
+		}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("",e);
 		}
 	}
 	@RequestMapping("/addRole")

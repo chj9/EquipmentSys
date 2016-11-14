@@ -22,6 +22,11 @@ public interface IUserService {
 	public boolean update(User user);
 	
 	public User loadById(Integer id);
-	
+	/**
+	 * 判断部门表和角色表是否有用户
+	 *@2016年11月13日
+	 *@return
+	 */
 	public boolean existUserByDeptId(int deptId);
+	public boolean existUserByRoleId(int deptId);
 }

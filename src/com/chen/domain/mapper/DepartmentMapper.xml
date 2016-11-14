@@ -8,6 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <id column="id" property="id" jdbcType="INTEGER"/>
 	 <result column="deptName" property="deptName" jdbcType="VARCHAR"/>
 	 <result column="remark" property="remark" jdbcType="VARCHAR"/>
+	  <result column="create_at" property="create_at" jdbcType="VARCHAR"/>
+	 <result column="deptStatus" property="deptStatus" jdbcType="INTEGER"/>
 	</resultMap>
     
  <sql id="mainSql">
@@ -21,11 +23,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
 	   select *   from t_department where id =#{id,jdbcType=INTEGER}
 	</select>
-	<!-- 保存部门信息 -->
-	 <insert id="insert" parameterType="com.chen.model.Department" >
-    insert into t_department (id, deptName, remark)
-    values (#{id,jdbcType=INTEGER}, #{deptName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
-  </insert>
 	
 	<insert id="insertSelective" parameterType="com.chen.model.Department" >
     insert into t_department
@@ -33,46 +30,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="id != null" >
         id,
       </if>
-      <if test="deptName != null" >
+       <if test="deptName != null and deptName!=''" >
         deptName,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null and remark !=''" >
         remark,
+      </if>
+      <if test="create_at != null and create_at !=''" >
+        create_at,
+      </if>
+      <if test="deptStatus != null and deptStatus !=''" >
+        deptStatus,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="deptName != null" >
+      <if test="deptName != null and deptName!=''" >
         #{deptName,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null and remark !=''" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+        <if test="create_at != null and create_at !=''" >
+        #{create_at,jdbcType=VARCHAR},
+      </if>
+      <if test="deptStatus != null and deptStatus !=''" >
+         #{deptStatus,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
 
-	
-	<update id="updateByPrimaryKey" parameterType="com.chen.model.Department" >
-    update t_department
-    set id = #{id,jdbcType=INTEGER},
-      deptName = #{deptName,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-	
 	 <update id="updateByPrimaryKeySelective" parameterType="com.chen.model.Department" >
     update t_department
     <set >
-      <if test="id != null" >
-        id = #{id,jdbcType=INTEGER},
+        <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="deptName != null" >
-        deptName = #{deptName,jdbcType=VARCHAR},
+      <if test="deptName != null and deptName!=''" >
+        #{deptName,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
-        remark = #{remark,jdbcType=VARCHAR},
+      <if test="remark != null and remark !=''" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+        <if test="create_at != null and create_at !=''" >
+        #{create_at,jdbcType=VARCHAR},
+      </if>
+      <if test="deptStatus != null and deptStatus !=''" >
+         #{deptStatus,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -90,10 +96,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <!-- 查询总条数 ，结合分页使用-->
 	<select id="count" resultType="INTEGER">
 		SELECT COUNT(*) AS C FROM  t_department p
+		<where>
+	  <if test="id != null" >
+        and #{id,jdbcType=INTEGER}
+      </if>
+      <if test="deptName != null and deptName!=''" >
+        and deptName LIKE  concat(concat('%', #{deptName,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="remark != null and remark !=''" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+        <if test="create_at != null and create_at !=''" >
+        and create_at= #{create_at,jdbcType=VARCHAR}
+      </if>
+      <if test="deptStatus != null and deptStatus !=''" >
+        and deptStatus= #{deptStatus,jdbcType=INTEGER}
+      </if>
+	</where>
 	</select>
 	<!-- 分页查询 -->
 	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
 		<include refid="mainSql"/>
+	 <where>
+	  <if test="param.id != null" >
+        and #{param.id,jdbcType=INTEGER}
+      </if>
+      <if test="param.deptName != null and param.deptName!=''" >
+        and deptName LIKE  concat(concat('%', #{param.deptName,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="param.remark != null and param.remark !=''" >
+        and remark = #{param.remark,jdbcType=VARCHAR}
+      </if>
+        <if test="param.create_at != null and param.create_at !=''" >
+        and create_at= #{param.create_at,jdbcType=VARCHAR}
+      </if>
+      <if test="param.deptStatus != null and param.deptStatus !=''" >
+        and deptStatus= #{param.deptStatus,jdbcType=INTEGER}
+      </if>
+	</where>
  		   limit ${start},${rows}
 	</select>
 </mapper>

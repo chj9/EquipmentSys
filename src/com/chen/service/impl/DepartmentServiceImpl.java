@@ -3,51 +3,75 @@ package com.chen.service.impl;
 
 
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chen.domain.DepartmentMapper;
 import com.chen.model.Department;
+import com.chen.model.PageBean;
 import com.chen.service.IDepartmentService;
+import com.chen.util.DateUtil;
 import com.chen.util.PageUtil;
-
+/**
+ * 部门服务
+ * @author chenhongjie
+ *@Tool
+ * 2016年11月13日
+ */
 @Service("departmentService")
 public class DepartmentServiceImpl implements IDepartmentService{
-
+	private static final Logger logger = LogManager.getLogger(DepartmentServiceImpl.class);
 	@Autowired
 	private DepartmentMapper departmentDao;
 	
-	@Override
-	public List<Department> findAll() {
-		return departmentDao.findAll();
-	}
 
 	@Override
-	public int count(Department department) {
-		return departmentDao.count(null);
-	}
-	@Override
 	public boolean add(Department department) {
-		departmentDao.insertSelective(department);
-		return false;
+		try {
+			department.setCreate_at(DateUtil.getCurrentDateStr());
+			departmentDao.insertSelective(department);
+			return true;
+		} catch (Exception e) {
+			logger.error("",e);
+			return false;
+		}
+	
 	}
 	@Override
 	public boolean update(Department department) {
+		try {
+			if(department==null){
+				return false;
+			}
 		departmentDao.updateByPrimaryKeySelective(department);
-		return false;
+		return true;
+		
+		} catch (Exception e) {
+			logger.error("",e);
+			return false;
+	}
 	}
 	@Override
 	public boolean delete(Integer id) {
-		departmentDao.deleteByPrimaryKey(id);
-		return false;
+		try {
+			if(id==null){
+				return false;
+			}
+			departmentDao.deleteByPrimaryKey(id);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
-	@Override
-	public Department loadById(Integer id) {
-		return departmentDao.selectByPrimaryKey(id);
-	}
+
 
 	@Override
 	public JSONArray getDeptListOption() {
@@ -57,6 +81,22 @@ public class DepartmentServiceImpl implements IDepartmentService{
 			return data;
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("",e);
+		}
+		return null;
+	}
+	@Override
+	public JSONObject getDeptList(PageBean page, Department department) {
+		try {
+			Map<String, Object>  m = PageUtil.getPageAndRow(page);
+			m.put("param", department);
+			int total = departmentDao.count(department);
+			List<Department> list = departmentDao.findPageByParam(m);
+			JSONObject data =PageUtil.ListBeanToJSON(list, total);
+			return data;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("",e);
 		}
 		return null;
 	}

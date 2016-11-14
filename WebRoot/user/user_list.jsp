@@ -3,7 +3,7 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/select.js"></script>
 <div class="easyui-layout" data-options="fit:true">
     <!-- Begin of toolbar -->
-    <div id="wu-toolbar-2">
+    <div id="user-toolbar">
         <div class="wu-toolbar-button">
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addUser()" plain="true">添加</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="cancel()" plain="true">取消</a>
@@ -26,18 +26,19 @@
             </select>
             <label>用户名：</label>
             <input id="userName" name="userName"  style="width:100px">
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" onclick="sousuoData()">开始检索</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" onclick="sousuouser()">开始检索</a>
         	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-refresh" onclick="javascript:$('#user_table').datagrid('reload')">重新加载</a>
 
          </form>
         </div>
     </div>
     <!-- 用户表 -->
-    <table id="user_table" class="easyui-datagrid" toolbar="#wu-toolbar-2"></table>
+    <table id="user_table" class="easyui-datagrid" toolbar="#user-toolbar"></table>
 </div>
 <!-- Begin of easyui-dialog -->
-   <div id="userdlg" class="easyui-dialog" style="width:300px;height:auto;"  data-options="iconCls:'icon-save',modal:true" closed=true buttons="#dlg-buttons">
+   <div id="userdlg" class="easyui-dialog" style="width:300px;height:auto;"  data-options="iconCls:'icon-save',modal:true" closed=true buttons="#dlg-user-buttons">
         <form id="userfm" method="post" novalidate style="margin:0;padding:20px 50px">
+           <input name="userSta" class="easyui-textbox" type="hidden">
             <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">用户信息</div>
           	<input name="id"  class="easyui-textbox" type="hidden">
             <div style="margin-bottom:10px">
@@ -61,7 +62,7 @@
                 <select id="roleId" name="roleId" required="true" class="easyui-combobox" style="width:140px"></select>
             </div>
         </form>
-      <div id="dlg-buttons">
+      <div id="dlg-user-buttons">
         <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'"  onclick="saveUser()">保存</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="javascript:$('#userdlg').dialog('close')">取消</a>
    	 </div>

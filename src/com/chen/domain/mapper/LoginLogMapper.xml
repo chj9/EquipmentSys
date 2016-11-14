@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.domain.LoginLogMapper">
+	<resultMap type="com.chen.model.LoginLogBean" id="backMap">	
+	   <id column="id" property="id" jdbcType="INTEGER" />
+	   <result column="login_name" property="login_name" jdbcType="VARCHAR" />
+	    <result column="role_name" property="role_name" jdbcType="VARCHAR" />
+	    <result column="user_status" property="user_status" jdbcType="VARCHAR" />
+	    <result column="client_ip" property="client_ip" jdbcType="VARCHAR" />
+	     <result column="create_time" property="create_time" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    id,login_name,role_name,user_status,client_ip,create_time
+	</sql> 
+	<sql id="mainSql">
+ 	SELECT 
+	 <include refid="Base_Column_List"/>
+ 	FROM sys_log  f
+ 	</sql>
+	<!-- 保存反馈信息 -->
+	<insert id="insertSelective" parameterType="com.chen.model.FeedBackBean" >
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="login_name != null and login_name!=''" >
+        login_name,
+      </if>
+      <if test="role_name != null and role_name!=''" >
+        role_name,
+      </if>
+       <if test="user_status != null and user_status!=''" >
+        user_status,
+      </if>
+        <if test="client_ip != null and client_ip!=''" >
+        client_ip,
+      </if>
+      <if test="create_time != null and create_time!=''" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="login_name != null and login_name!=''" >
+        #{login_name,jdbcType=VARCHAR},
+      </if>
+       <if test="role_name != null and role_name!=''" >
+        #{role_name,jdbcType=VARCHAR},
+      </if>
+      <if test="user_status != null and user_status!=''" >
+        #{user_status,jdbcType=VARCHAR},
+      </if>
+      <if test="client_ip != null and client_ip!=''" >
+        #{client_ip,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null and create_time!=''" >
+        #{create_time,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+	
+	 <!-- 查询总条数 ，结合分页使用-->
+	<select id="count" resultType="INTEGER" parameterType="com.chen.model.FeedBackBean">
+		SELECT COUNT(*) AS C FROM  sys_log 
+		<where>
+			 <if test="id != null" >
+       			and id = #{id,jdbcType=INTEGER}
+     		 </if>
+     	 	<if test="role_name != null  and role_name !=''" >
+      			and role_name = #{role_name,jdbcType=VARCHAR}
+     		 </if>
+      		 <if test="login_name != null  and login_name !=''" >
+      			and login_name LIKE  concat(concat('%', #{login_name,jdbcType=VARCHAR}),'%')
+     		 </if>
+     		  <if test="user_status != null  and user_status !=''" >
+      			and user_status = #{user_status,jdbcType=VARCHAR}
+     		 </if>
+     		   <if test="client_ip != null  and client_ip !=''" >
+      			and client_ip = #{client_ip,jdbcType=VARCHAR}
+     		 </if>
+      			 <if test="timesta!=null and timesta !='' and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="timesta!=null and timesta!='' and ( timeend==null || timeend=='')">
+     		 	and DATE_FORMAT(create_time,'%Y-%m-%d') &gt;=#{timesta,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="(timesta==null || timesta=='') and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(create_time,'%Y-%m-%d') &lt;= #{timeend,jdbcType=VARCHAR}
+     		 </if>
+		</where>
+	</select>
+	<!-- 分页查询 -->
+	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
+		<include refid="mainSql"/>
+		<where>
+			 <if test="param.id != null " >
+       			and id = #{param.id,jdbcType=INTEGER}
+     		 </if>
+     	  	 <if test="param.role_name != null and param.role_name!=''" >
+      			and role_name = #{param.role_name,jdbcType=VARCHAR}
+     		 </if>
+      		 <if test="param.login_name != null and param.login_name!=''" >
+      			and login_name LIKE  concat(concat('%', #{param.login_name,jdbcType=VARCHAR}),'%')
+     		 </if>
+     		  <if test="param.user_status != null  and param.user_status!=''" >
+      			and user_status = #{param.user_status,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="param.client_ip != null  and param.client_ip!=''" >
+      			and client_ip = #{param.client_ip,jdbcType=VARCHAR}
+     		 </if>
+     		 <if test="param.timesta!=null and param.timesta!='' and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{param.timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="param.timesta!=null and param.timesta!='' and ( param.timeend==null || param.timeend=='')">
+     		 	and DATE_FORMAT(create_time,'%Y-%m-%d') &gt;=#{param.timesta,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="(param.timesta==null || param.timesta=='') and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(create_time,'%Y-%m-%d') &lt;= #{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+		</where>
+ 		    order by id desc limit ${start},${rows}
+	</select>
+</mapper>

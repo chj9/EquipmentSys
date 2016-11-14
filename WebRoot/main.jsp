@@ -52,36 +52,37 @@ var tem = "<%=basePath%>";
     			    <li iconCls="icon-group"><a href="javascript:void(0)" data-icon="icon-group" data-link="${pageContext.request.contextPath}/user/user_list.jsp" iframe="0">用户信息</a></li>
                     <li iconCls="icon-user-business-boss"><a href="javascript:void(0)" data-icon="icon-user-business-boss" data-link="${pageContext.request.contextPath}/user/role_list.jsp" iframe="0">角色管理</a></li>
                		<li iconCls="icon-feed"><a href="javascript:void(0)" data-icon="icon-feed" data-link="${pageContext.request.contextPath}/user/feedback.jsp" iframe="0">意见反馈</a></li>
-               		<li iconCls="icon-email-open"><a href="javascript:void(0)" data-icon="icon-email-open" data-link="temp/layout-3.html" iframe="0">反馈管理</a></li>
-              		<li iconCls="icon-bin"><a href="javascript:void(0)" data-icon="icon-bin" data-link="temp/layout-3.html" iframe="0">用户回收箱</a></li>
+               		<li iconCls="icon-email-open"><a href="javascript:void(0)" data-icon="icon-email-open" data-link="${pageContext.request.contextPath}/user/feeback_table.jsp" iframe="0">反馈管理</a></li>
+              		<li iconCls="icon-bin"><a href="javascript:void(0)" data-icon="icon-bin" data-link="${pageContext.request.contextPath}/user/recyc_user.jsp" iframe="0">用户回收箱</a></li>
                 </ul>
             </div>
             <div title="部门管理" data-options="iconCls:'icon-chart-curve'" style="padding:5px;">  	
     			 <ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-group-key"><a href="javascript:void(0)" data-icon="icon-group-key" data-link="layout-3.html" iframe="0">部门信息</a></li>
-                    <li iconCls="icon-bin"><a href="javascript:void(0)" data-icon="icon-bin" data-link="temp/layout-3.html" iframe="0">部门回收箱</a></li>
+                	<li iconCls="icon-group-key"><a href="javascript:void(0)" data-icon="icon-group-key" data-link="${pageContext.request.contextPath}/department/depa_list.jsp" iframe="0">部门信息</a></li>
+                    <li iconCls="icon-bin"><a href="javascript:void(0)" data-icon="icon-bin" data-link="${pageContext.request.contextPath}/temp/layout-3.html" iframe="0">部门回收箱</a></li>
                 </ul>
             </div>
             <div title="设备管理" data-options="iconCls:'icon-laptop'" style="padding:5px;">  	
     			<ul class="easyui-tree wu-side-tree">
                 	<li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="layout-3.html" iframe="0">设备列表</a></li>
-                    <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="temp/layout-3.html" iframe="0">维护维修</a></li>
-                    <li iconCls="icon-computer-error"><a href="javascript:void(0)" data-icon="icon-computer-error" data-link="temp/layout-3.html" iframe="0">闲置设备</a></li>
-                    <li iconCls="icon-bin"><a href="javascript:void(0)" data-icon="icon-bin" data-link="temp/layout-3.html" iframe="0">设备回收箱</a></li>
+                    <li iconCls="icon-cog"><a href="javascript:void(0)" data-icon="icon-cog" data-link="${pageContext.request.contextPath}/temp/layout-3.html" iframe="0">维护维修</a></li>
+                    <li iconCls="icon-computer-error"><a href="javascript:void(0)" data-icon="icon-computer-error" data-link="${pageContext.request.contextPath}/temp/layout-3.html" iframe="0">闲置设备</a></li>
+                    <li iconCls="icon-bin"><a href="javascript:void(0)" data-icon="icon-bin" data-link="${pageContext.request.contextPath}/temp/layout-3.html" iframe="0">设备回收箱</a></li>
                 </ul>
             </div>
             <div title="设备采购" data-options="iconCls:'icon-bricks'" style="padding:5px;">  	
     			<ul class="easyui-tree wu-side-tree">
-                	<li iconCls="icon-text-list-bullets"><a href="javascript:void(0)" data-icon="icon-text-list-bullets" data-link="layout-3.html" iframe="0">采购工单</a></li>
-                    <li iconCls="icon-money-yen"><a href="javascript:void(0)" data-icon="icon-money-yen" data-link="temp/layout-3.html" iframe="0">价格信息</a></li>
-                    <li iconCls="icon-bin"><a href="javascript:void(0)" data-icon="icon-bin" data-link="temp/layout-3.html" iframe="0">工单回收箱</a></li>
+                	<li iconCls="icon-text-list-bullets"><a href="javascript:void(0)" data-icon="icon-text-list-bullets" data-link="${pageContext.request.contextPath}/layout-3.html" iframe="0">采购工单</a></li>
+                    <li iconCls="icon-money-yen"><a href="javascript:void(0)" data-icon="icon-money-yen" data-link="${pageContext.request.contextPath}/temp/layout-3.html" iframe="0">价格信息</a></li>
+                    <li iconCls="icon-bin"><a href="javascript:void(0)" data-icon="icon-bin" data-link="${pageContext.request.contextPath}/temp/layout-3.html" iframe="0">工单回收箱</a></li>
                 </ul>
             </div>
             <div title="系统设置" data-options="iconCls:'icon-wrench'" style="padding:5px;">  	
     			<ul class="easyui-tree wu-side-tree">
-                    <li iconCls="icon-user-key"><a href="javascript:void(0)" data-icon="icon-user-key" data-link="temp/layout-3.html" iframe="0">登陆信息</a></li>
-                    <li iconCls="icon-key"><a href="javascript:void(0)" data-icon="icon-key" data-link="temp/layout-3.html" iframe="0">修改密码</a></li>
-                    <li iconCls="icon-text-columns"><a href="javascript:void(0)" data-icon="icon-text-columns" data-link="temp/layout-3.html" iframe="0">日志信息</a></li>
+                    <li iconCls="icon-user-key"><a href="javascript:void(0)" data-icon="icon-user-key" data-link="${pageContext.request.contextPath}/temp/layout-3.html" iframe="0">登陆信息</a></li>
+                    <li iconCls="icon-key"><a href="javascript:void(0)" data-icon="icon-key" data-link="${pageContext.request.contextPath}/temp/layout-3.html" iframe="0">修改密码</a></li>
+                  	 <li iconCls="icon-text-columns"><a href="javascript:void(0)" data-icon="icon-text-columns" data-link="${pageContext.request.contextPath}/login_log.jsp" iframe="0">登陆日志</a></li>
+                    <li iconCls="icon-text-columns"><a href="javascript:void(0)" data-icon="icon-text-columns" data-link="${pageContext.request.contextPath}/temp/layout-3.html" iframe="0">日志信息</a></li>
                 </ul>
             </div>
         </div>

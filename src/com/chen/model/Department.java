@@ -13,10 +13,26 @@ public class Department implements Serializable {
 	//部门ID
 	private Integer id; 
 	//部门名称
+
 	private String deptName;
+	private String  create_at;
+	private Integer deptStatus;//1、有效 0、无效
 	//备注
 	private String remark;
 	
+	
+	public String getCreate_at() {
+		return create_at;
+	}
+	public void setCreate_at(String create_at) {
+		this.create_at = create_at;
+	}
+	public Integer getDeptStatus() {
+		return deptStatus;
+	}
+	public void setDeptStatus(Integer deptStatus) {
+		this.deptStatus = deptStatus;
+	}
 	public Integer getId() {
 		return id;
 	}

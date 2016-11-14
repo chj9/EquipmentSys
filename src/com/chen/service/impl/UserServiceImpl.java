@@ -28,8 +28,7 @@ public class UserServiceImpl implements IUserService{
 	public User login(User user) {
 		List<User> list = userDao.login(user);
 		for(User us:list){
-			user.setId(us.getId());
-			user.setTrueName(us.getTrueName());
+			user=us;
 		}
 		return user;
 	}
@@ -101,7 +100,20 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	public boolean existUserByDeptId(int deptId) {
-		return userDao.existUserByDeptId(deptId);
+		List<User> list = userDao.existUserByDeptId(deptId);
+		if(list.isEmpty()){
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean existUserByRoleId(int roleId) {
+		List<User> list = userDao.existUserByRoleId(roleId);
+		if(list.isEmpty()){
+			return false;
+		}
+		return true;
 	}
 
 }

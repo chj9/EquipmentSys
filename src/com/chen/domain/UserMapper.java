@@ -16,5 +16,6 @@ public interface UserMapper extends BaseDAO<User, Integer> {
 	
 	 public List<User> findPageByParam(Map<String,Object> m);
 
-   	public boolean existUserByDeptId(int deptId);
+   	public List<User> existUserByDeptId(int deptId);
+   	public List<User> existUserByRoleId(int roleId);
 }

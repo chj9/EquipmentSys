@@ -9,9 +9,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   <result column="feedback" property="feedback" jdbcType="VARCHAR" />
 	    <result column="userName" property="userName" jdbcType="VARCHAR" />
 	    <result column="feedtime" property="feedtime" jdbcType="VARCHAR" />
+	    <result column="contact" property="contact" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List" >
-    id,feedback,userName,feedtime
+    id,feedback,userName,feedtime,contact
 	</sql> 
 	<sql id="mainSql">
  	SELECT 
@@ -34,6 +35,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        <if test="feedtime != null and feedtime!=''" >
         feedtime,
       </if>
+        <if test="contact != null and contact!=''" >
+        contact,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -48,6 +52,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="feedtime != null and feedtime!=''" >
         #{feedtime,jdbcType=VARCHAR},
       </if>
+      <if test="contact != null and contact!=''" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
 	
@@ -56,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </delete>
 	 <!-- 查询总条数 ，结合分页使用-->
 	<select id="count" resultType="INTEGER" parameterType="com.chen.model.FeedBackBean">
-		SELECT COUNT(*) AS C FROM  t_role 
+		SELECT COUNT(*) AS C FROM  t_feedback 
 		<where>
 			 <if test="id != null" >
        			and id = #{id,jdbcType=INTEGER}
@@ -65,7 +72,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       			and feedback = #{feedback,jdbcType=VARCHAR}
      		 </if>
       		 <if test="userName != null  and userName!=''" >
-      			and userName = #{userName,jdbcType=VARCHAR}
+      			and userName LIKE  concat(concat('%', #{userName,jdbcType=VARCHAR}),'%')
+     		 </if>
+     		  <if test="contact != null  and contact!=''" >
+      			and contact = #{contact,jdbcType=VARCHAR}
      		 </if>
       			 <if test="timesta!=null and timesta!='' and timeend!=null and timeend!=''">
      		 	and DATE_FORMAT(feedtime,'%Y-%m-%d %H:%i:%s')  
@@ -89,11 +99,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			 <if test="param.id != null " >
        			and id = #{param.id,jdbcType=INTEGER}
      		 </if>
-     	  	 <if test="param.roleName != null and param.roleName!=''" >
+     	  	 <if test="param.feedback != null and param.feedback!=''" >
       			and feedback = #{param.feedback,jdbcType=VARCHAR}
      		 </if>
-      		 <if test="param.create_at != null and param.create_at!=''" >
-      			and userName = #{param.userName,jdbcType=VARCHAR}
+      		 <if test="param.userName != null and param.userName!=''" >
+      			and userName LIKE  concat(concat('%', #{param.userName,jdbcType=VARCHAR}),'%')
+     		 </if>
+     		  <if test="param.contact != null  and param.contact!=''" >
+      			and contact = #{param.contact,jdbcType=VARCHAR}
      		 </if>
      		 <if test="param.timesta!=null and param.timesta!='' and param.timeend!=null and param.timeend!=''">
      		 	and DATE_FORMAT(feedtime,'%Y-%m-%d %H:%i:%s')  
@@ -109,6 +122,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      		 	and DATE_FORMAT(feedtime,'%Y-%m-%d') &lt;= #{param.timeend,jdbcType=VARCHAR}
      		 </if>
 		</where>
- 		       limit ${start},${rows}
+ 		    order by id desc limit ${start},${rows}
 	</select>
 </mapper>

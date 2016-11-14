@@ -10,9 +10,17 @@ public class FeedBackBean implements Serializable{
 	private Integer id;
 	private String feedback;
 	private String userName;
+	private String contact;
 	private String feedtime;
 	private String timesta; 
 	private String timeend;
+	
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
 	public String getTimesta() {
 		return timesta;
 	}

@@ -33,7 +33,7 @@ public class POIController {
 		try {
 		  response.setContentType("octets/stream");
 	      response.addHeader("Content-Disposition", "attachment;filename=user.xls");
-	      //测试图书
+	    
 	      List<User> data = userService.getDataArray();
 	      ExportExcel<User> ex = new ExportExcel<User>();
 	      String[] headers = { "ID", "密码", "账户", "别名","角色ID","部门ID","角色名称", "部门名称","注册时间","是否有效" };
@@ -57,7 +57,7 @@ public class POIController {
 		try {
 		  response.setContentType("octets/stream");
 	      response.addHeader("Content-Disposition", "attachment;filename=equipment.xls");
-	      //测试图书
+	 
 	      List<Equipment> data = equService.getEquExcelData();
 	      ExportExcel<Equipment> ex = new ExportExcel<Equipment>();
 	      String[] headers = { "ID", "设备名称", "设备编号", "设备类型id","类型名称","设备状态","设备状态", "教室ID","备注","是否有效" };
@@ -80,7 +80,7 @@ public class POIController {
 		try {
 		  response.setContentType("octets/stream");
 	      response.addHeader("Content-Disposition", "attachment;filename=repair.xls");
-	      //测试图书
+	   
 	      List<Repair> data = equService.getRepairExcelData();
 	      ExportExcel<Repair> ex = new ExportExcel<Repair>();
 	      String[] headers = { "ID", "设备ID", "设备名字", "设备编号","报修人","维修人","报修时间", "处理完成时间","损坏描述",
@@ -104,7 +104,7 @@ public class POIController {
 		try {
 		  response.setContentType("octets/stream");
 	      response.addHeader("Content-Disposition", "attachment;filename=equipment_price.xls");
-	      //测试图书
+	
 	      List<EquPriceBean> data = priceService.getEquPriceExcelData();
 	      ExportExcel<EquPriceBean> ex = new ExportExcel<EquPriceBean>();
 	      String[] headers = { "ID", "设备名称", "价格(￥)", "单位","品牌","型号","宽(mm)", "高(mm)","重量(KG)",

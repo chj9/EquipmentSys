@@ -45,7 +45,7 @@ function loaddata(){
 			{ field:'remark',title:'备注',width:80, align: 'left'},
 			{ field:'create_at',title:'角色最后修改时间',width:80, align: 'left'},
 			{ field:'powerEdit',title:'权限操作',width:80,formatter:powerEdit, align: 'left'},
-			{ field:'cmd',title:'操作',width:80,formatter:formatOper, align: 'left'}
+			{ field:'cmd',title:'操作',width:80,formatter:formatRoleOper, align: 'left'}
 		]],
 		onBeforeLoad: function (param) {
 			   var timesta = $("#timesta").val(); //开始时间
@@ -136,7 +136,7 @@ function deleteRole(index,roleStatus,str){
      if (row){
          $.messager.confirm('提示',str,function(r){
              if (r){
-                 $.post(tem+'role/edit.do',{id:row.id,roleStatus:roleStatus},function(result){
+                 $.post(tem+'role/edit.do',{id:row.id,roleStatus:roleStatus,str:roleStatus},function(result){
              
                  	if (result.success){
                          $('#role_table').datagrid('reload');    // reload the user data
@@ -206,7 +206,7 @@ function editPower(){
 }
 
 	//val指当前单元格的值,row,当前行对象,index当前行的索引
-	function formatOper(val,row,index){  
+	function formatRoleOper(val,row,index){   //1、取消 0、恢复
 	    return 	'<a href="javascript:void(0)" style="color: #0000FF" onclick="editRole('+index+')">编辑</a>||'+
 	    		'<a href="javascript:void(0)" style="color: #0000FF" onclick="deleteRole('+index+',0,\'确认删除角色么？\')">删除</a>';  
 	} 

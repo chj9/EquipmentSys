@@ -2,7 +2,9 @@ package com.chen.model;
 
 import java.io.Serializable;
 
-public class FeedBackBean implements Serializable{
+import com.common.BaseBean;
+
+public class FeedBackBean extends BaseBean implements Serializable{
 	/**
 	 * 
 	 */
@@ -12,8 +14,7 @@ public class FeedBackBean implements Serializable{
 	private String userName;
 	private String contact;
 	private String feedtime;
-	private String timesta; 
-	private String timeend;
+
 	
 	public String getContact() {
 		return contact;
@@ -21,18 +22,7 @@ public class FeedBackBean implements Serializable{
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
-	public String getTimesta() {
-		return timesta;
-	}
-	public void setTimesta(String timesta) {
-		this.timesta = timesta;
-	}
-	public String getTimeend() {
-		return timeend;
-	}
-	public void setTimeend(String timeend) {
-		this.timeend = timeend;
-	}
+
 	public Integer getId() {
 		return id;
 	}

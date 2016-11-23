@@ -1,5 +1,6 @@
 package com.chen.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+
+
 import com.chen.model.Department;
 import com.chen.model.PageBean;
 import com.chen.service.IDepartmentService;
 import com.chen.service.IUserService;
 import com.chen.util.ResponseUtil;
+import com.mysql.jdbc.StringUtils;
 
 /**
  * 
@@ -40,6 +44,7 @@ public class DepartmentController {
 	@RequestMapping("/list")
 	public void list(PageBean page,Department s_department,HttpServletResponse response){
 		try {
+			System.out.println(s_department.getDeptStatus());
 		JSONObject o = departmentService.getDeptList(page, s_department);
 		ResponseUtil.write(o, response);
 		} catch (Exception e) {
@@ -64,6 +69,7 @@ public class DepartmentController {
 	
 	@RequestMapping("/delete")
 	public void delete(@RequestParam(value="id")String id,HttpServletResponse response)throws Exception{
+		System.out.println(id);
 		if(userService.existUserByDeptId(Integer.parseInt(id))){
 			ResponseUtil.write("{\"errorMsg\":\"该部门下面还有用户,无法删除\"}", response);
 		}else{
@@ -76,15 +82,22 @@ public class DepartmentController {
 		}
 	}
 	@RequestMapping("/update")
-	public void update(Department department,HttpServletResponse response){
+	public void update(Department department,HttpServletRequest request,HttpServletResponse response){
 		try {
+			String sta = request.getParameter("sta");
+			if(!StringUtils.isNullOrEmpty(sta)){
+				if(userService.existUserByDeptId(department.getId())){
+					ResponseUtil.write("{\"errorMsg\":\"该部门下面还有用户,无法删除\"}", response);
+					return;
+				}
+			}
 			boolean  status =	departmentService.update(department);
-		if (status) {
-			ResponseUtil.write("{\"success\":\"修改成功\"}", response);
-		} else {
-			ResponseUtil.write("{\"errorMsg\":\"修改失败\"}", response);
-		}
-		} catch (Exception e) {
+			if (status) {
+				ResponseUtil.write("{\"success\":\"修改成功\"}", response);
+			} else {
+				ResponseUtil.write("{\"errorMsg\":\"修改失败\"}", response);
+			}
+			} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}

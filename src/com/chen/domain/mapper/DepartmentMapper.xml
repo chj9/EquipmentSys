@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="create_at != null and create_at !=''" >
         create_at,
       </if>
-      <if test="deptStatus != null and deptStatus !=''" >
+      <if test="deptStatus != null" >
         deptStatus,
       </if>
     </trim>
@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="create_at != null and create_at !=''" >
         #{create_at,jdbcType=VARCHAR},
       </if>
-      <if test="deptStatus != null and deptStatus !=''" >
+      <if test="deptStatus != null" >
          #{deptStatus,jdbcType=INTEGER},
       </if>
     </trim>
@@ -66,19 +66,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     update t_department
     <set >
         <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+        id  =   #{id,jdbcType=INTEGER},
       </if>
       <if test="deptName != null and deptName!=''" >
-        #{deptName,jdbcType=VARCHAR},
+         deptName = #{deptName,jdbcType=VARCHAR},
       </if>
       <if test="remark != null and remark !=''" >
-        #{remark,jdbcType=VARCHAR},
+        remark= #{remark,jdbcType=VARCHAR},
       </if>
         <if test="create_at != null and create_at !=''" >
-        #{create_at,jdbcType=VARCHAR},
+         create_at= #{create_at,jdbcType=VARCHAR},
       </if>
-      <if test="deptStatus != null and deptStatus !=''" >
-         #{deptStatus,jdbcType=INTEGER},
+      <if test="deptStatus != null" >
+       deptStatus =  #{deptStatus,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -106,12 +106,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="remark != null and remark !=''" >
         and remark = #{remark,jdbcType=VARCHAR}
       </if>
-        <if test="create_at != null and create_at !=''" >
-        and create_at= #{create_at,jdbcType=VARCHAR}
-      </if>
-      <if test="deptStatus != null and deptStatus !=''" >
+      <if test="deptStatus != null" >
         and deptStatus= #{deptStatus,jdbcType=INTEGER}
       </if>
+       <if test="timesta!=null and timesta!='' and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{timeend,jdbcType=VARCHAR}
+      </if>
+     	<if test="timesta!=null and timesta!='' and ( timeend==null || timeend=='')">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d') &gt;=#{timesta,jdbcType=VARCHAR}
+     	</if>
+     	<if test="(timesta==null || timesta=='') and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d') &lt;= #{timeend,jdbcType=VARCHAR}
+     	</if>
 	</where>
 	</select>
 	<!-- 分页查询 -->
@@ -127,12 +137,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="param.remark != null and param.remark !=''" >
         and remark = #{param.remark,jdbcType=VARCHAR}
       </if>
-        <if test="param.create_at != null and param.create_at !=''" >
-        and create_at= #{param.create_at,jdbcType=VARCHAR}
-      </if>
-      <if test="param.deptStatus != null and param.deptStatus !=''" >
+      <if test="param.deptStatus != null" >
         and deptStatus= #{param.deptStatus,jdbcType=INTEGER}
       </if>
+       <if test="param.timesta!=null and param.timesta!='' and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{param.timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="param.timesta!=null and param.timesta!='' and ( param.timeend==null || param.timeend=='')">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d') &gt;=#{param.timesta,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="(param.timesta==null || param.timesta=='') and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d') &lt;= #{param.timeend,jdbcType=VARCHAR}
+     		 </if>
 	</where>
  		   limit ${start},${rows}
 	</select>

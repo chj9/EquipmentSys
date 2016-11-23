@@ -1,5 +1,6 @@
 package com.chen.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
@@ -16,7 +17,9 @@ import com.chen.model.PageBean;
 import com.chen.model.RoleBean;
 import com.chen.model.User;
 import com.chen.service.IRoleService;
+import com.chen.service.IUserService;
 import com.chen.util.ResponseUtil;
+import com.mysql.jdbc.StringUtils;
 
 @Controller
 @RequestMapping("/role")
@@ -25,6 +28,9 @@ public class RoleController {
 	private static final Logger logger=  LogManager.getLogger(RoleController.class);
 	@Autowired
 	private IRoleService roleService;
+	
+	@Autowired
+	private IUserService userService;
 	
 	@RequestMapping("/geRoletListOption")	
 	public void geRoletListOption(HttpServletResponse response){
@@ -47,8 +53,15 @@ public class RoleController {
 		}
 	}
 	@RequestMapping("/edit")
-	public void preSave(RoleBean role,HttpServletResponse response){
+	public void preSave(RoleBean role,HttpServletRequest request,HttpServletResponse response){
 		try {
+			String str = request.getParameter("str");
+			if(!StringUtils.isNullOrEmpty(str)&&Integer.valueOf(str)==0){
+				if(userService.existUserByRoleId(role.getId())){
+					ResponseUtil.write("{\"errorMsg\":\"该角色下面还有用户,无法删除\"}", response);
+					return;
+				}
+			}
 			boolean status = roleService.update(role);
 			if (status) {
 				ResponseUtil.write("{\"success\":\"修改成功\"}", response);

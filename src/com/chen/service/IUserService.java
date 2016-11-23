@@ -1,5 +1,8 @@
 package com.chen.service;
 
+import java.util.List;
+
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.chen.model.PageBean;
@@ -20,6 +23,8 @@ public interface IUserService {
 	public boolean add(User user);
 	
 	public boolean update(User user);
+	
+	public List<User> getDataArray();
 	
 	public User loadById(Integer id);
 	/**

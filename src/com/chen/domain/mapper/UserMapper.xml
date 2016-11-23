@@ -26,7 +26,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	FROM  t_user u,t_department  d,t_role  r
  	</sql>   
 	<select id="findAll" resultMap="backMap">
-		<include refid="mainSql"/>
+		<include refid="mainSql"/> 
+		<where>
+		  and u.roleId = r.id and u.deptId=d.id
+		</where>
 	</select>
 
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="backMap">
@@ -132,7 +135,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        			and u.id = #{id,jdbcType=INTEGER}
      		 </if>
      	 	<if test="userName != null  and userName!=''" >
-      			and u.userName = LIKE  concat(concat('%', #{userName,jdbcType=VARCHAR}),'%')
+      			and u.userName  LIKE  concat(concat('%', #{userName,jdbcType=VARCHAR}),'%')
      		 </if>
       		 <if test="password != null  and password!=''" >
       			and u.password = #{password,jdbcType=VARCHAR}

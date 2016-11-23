@@ -19,8 +19,21 @@ public class Department implements Serializable {
 	private Integer deptStatus;//1、有效 0、无效
 	//备注
 	private String remark;
+	private String timesta;
+	private String timeend;
 	
-	
+	public String getTimesta() {
+		return timesta;
+	}
+	public void setTimesta(String timesta) {
+		this.timesta = timesta;
+	}
+	public String getTimeend() {
+		return timeend;
+	}
+	public void setTimeend(String timeend) {
+		this.timeend = timeend;
+	}
 	public String getCreate_at() {
 		return create_at;
 	}

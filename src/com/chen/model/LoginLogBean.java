@@ -10,7 +10,7 @@ import com.common.BaseBean;
  *@Tool
  * 2016年11月13日
  */
-public class LoginLogBean implements Serializable{
+public class  LoginLogBean extends BaseBean implements Serializable{
 	/**
 	 * 
 	 */
@@ -21,21 +21,7 @@ public class LoginLogBean implements Serializable{
 	private String user_status;
 	private String client_ip;
 	private String create_time;
-	private String timesta;
-	private String timeend;
-	
-	public String getTimesta() {
-		return timesta;
-	}
-	public void setTimesta(String timesta) {
-		this.timesta = timesta;
-	}
-	public String getTimeend() {
-		return timeend;
-	}
-	public void setTimeend(String timeend) {
-		this.timeend = timeend;
-	}
+
 	public Integer getId() {
 		return id;
 	}

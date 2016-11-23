@@ -9,7 +9,7 @@
             </tr>
             <tr>
                 <td width="60" align="right">联系方式:</td>
-                <td><input type="text" name="contact" style="width:400px" onblur="javascript:event.srcElement.value=''" class="wu-text" /></td>
+                <td><input type="text" name="contact" style="width:400px"  class="wu-text" /></td>
             </tr>
             <tr>
                 <td valign="top" align="right">反馈内容:</td>

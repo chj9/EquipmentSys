@@ -26,7 +26,7 @@ function loaddata(){
 			{ field:'roleName',title:'权限',width:80, align: 'left'},
 			{ field:'deptName',title:'所属部门',width:80, align: 'left'},
 			{ field:'regtime',title:'注册时间',width:120, align: 'left'},
-			{ field:'cmd',title:'操作',width:80,formatter:formatOper, align: 'left'}
+			{ field:'cmd',title:'操作',width:80,formatter:formatUserOper, align: 'left'}
 		]],
 		onBeforeLoad: function (param) {
 			   var timesta = $("#timesta").val(); //开始时间
@@ -158,7 +158,7 @@ function editUs(index,userSta,str){
 }
 
 	//val指当前单元格的值,row,当前行对象,index当前行的索引
-	function formatOper(val,row,index){  
+	function formatUserOper(val,row,index){  
 	    return 	'<a href="javascript:void(0)" style="color: #0000FF" onclick="editUser('+index+')">编辑</a>||'+
 	    		'<a href="javascript:void(0)" style="color: #0000FF" onclick="editUs('+index+',0,\'确认删除用户么？\')">删除</a>';  
 	}  

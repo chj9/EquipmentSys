@@ -7,32 +7,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="com.chen.model.Repair" id="backMap">	
 	 <id column="id" property="id" jdbcType="INTEGER"/>
 	 <result column="equipmentId" property="equipmentId" jdbcType="INTEGER"/>
-	 <result column="userMan" property="userMan" jdbcType="VARCHAR"/>
-	  <result column="repairMan" property="repairMan" jdbcType="VARCHAR"/>
-	 <result column="repairTime" property="repairTime" jdbcType="VARCHAR"/>
-	 <result column="finishTime" property="finishTime" jdbcType="VARCHAR"/>
-	 <result column="state" property="state" jdbcType="INTEGER"/>
-	  <result column="finishState" property="finishState" jdbcType="INTEGER"/>
+	 	 <result column="equipmentName" property="equipmentName" jdbcType="VARCHAR"/>
+	 	 <result column="equipmentNo" property="equipmentNo" jdbcType="VARCHAR"/>
+		 <result column="userMan" property="userMan" jdbcType="VARCHAR"/>
+	 	 <result column="repairMan" property="repairMan" jdbcType="VARCHAR"/>
+	 	 <result column="repairTime" property="repairTime" jdbcType="VARCHAR"/>
+	 	 <result column="finishTime" property="finishTime" jdbcType="VARCHAR"/>
+	 	 <result column="state" property="state" jdbcType="INTEGER"/>
+	     <result column="finishState" property="finishState" jdbcType="INTEGER"/>
+	   	 <result column="description" property="description" jdbcType="VARCHAR"/>
+	   	 <result column="stateName" property="stateName" jdbcType="VARCHAR"/>
+	   	 	 <result column="remark" property="remark" jdbcType="VARCHAR"/>
 	</resultMap>
-    
+<sql id="Base_Column_List" >
+    e.name AS equipmentName,e.no AS equipmentNo,e.stateName,e.stateName,e.state,
+    p.id,p.equipmentId,p.userman,p.repairman,p.repairTime,
+    p.finishTime,p.finishState,p.description,p.remark
+</sql> 	
  <sql id="mainSql">
- 	SELECT * FROM  t_repair p
+ 	SELECT 
+ 	<include refid="Base_Column_List"/>
+ 	 FROM  t_equipment e,t_repair p
  </sql>   
  
 	<select id="findAll" resultMap="backMap">
 		<include refid="mainSql"/>
+		<where>
+		and p.equipmentId = e.id
+		</where>
 	</select>
-	
-	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
-	   select * t_repair  from where id =#{id,jdbcType=INTEGER}
-	</select>
-	<!-- 保存部门信息 -->
-	 <insert id="insert" parameterType="com.chen.model.Repair" >
-    insert into t_repair (id, equipmentId,userMan,repairMan,repairTime,finishTime,state,finishState)
-    values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER},#{userMan,jdbcType=VARCHAR},
-    		#{repairMan,jdbcType=VARCHAR},#{repairTime,jdbcType=VARCHAR}, #{finishTime,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},#{finishState,jdbcType=INTEGER})
-  </insert>
-	
 	<insert id="insertSelective" parameterType="com.chen.model.Repair" >
     insert into t_repair
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -42,42 +45,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="equipmentId != null" >
         equipmentId,
       </if>
-      <if test="userMan != null" >
+      <if test="userMan != null and userMan !=''" >
         userMan,
       </if>
-       <if test="repairMan != null" >
+       <if test="repairMan != null and repairMan !=''" >
         repairMan,
       </if>
-      <if test="repairTime != null" >
+      <if test="repairTime != null and repairTime != ''" >
         repairTime,
       </if>
-      <if test="finishTime != null" >
+      <if test="finishTime != null and finishTime !=''" >
         finishTime,
       </if>
-       <if test="state != null" >
+       <if test="state != null and  state !=''" >
         state,
       </if>
-        <if test="finishState != null" >
+        <if test="finishState != null and finishState !=''" >
         finishState,
       </if>
+       <if test="description !=null and description != ''">
+       description,
+       </if>
+            <if test="remark !=null and remark != ''">
+       remark,
+       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="equipmentId != null" >
+       <if test="equipmentId != null" >
         #{equipmentId,jdbcType=INTEGER},
       </if>
-       <if test="userMan != null" >
+       <if test="userMan != null and userMan !=''" >
         #{userMan,jdbcType=VARCHAR},
       </if>
-      <if test="repairMan != null" >
+      <if test="repairMan != null and repairMan !=''" >
         #{repairMan,jdbcType=VARCHAR},
       </if>
-       <if test="repairTime != null" >
+       <if test="repairTime != null and repairTime != ''" >
         #{repairTime,jdbcType=VARCHAR},
       </if>
-      <if test="finishTime != null" >
+      <if test="finishTime != null and finishTime !=''" >
         #{finishTime,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
@@ -86,70 +95,162 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="finishState != null" >
         #{finishState,jdbcType=INTEGER},
       </if>
+      <if test="description !=null and description != ''">
+       #{description,jdbcType=VARCHAR},
+      </if>
+       <if test="remark !=null and remark != ''">
+       #{remark,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-
-	
-	<update id="updateByPrimaryKey" parameterType="com.chen.model.Repair" >
-    update t_repair
-    set id = #{id,jdbcType=INTEGER},
-   	  equipmentId = #{equipmentId,jdbcType=INTEGER},
-      userMan = #{userMan,jdbcType=VARCHAR},
-      repairMan = #{repairMan,jdbcType=VARCHAR},
-      repairTime = #{repairTime,jdbcType=VARCHAR},
-      finishTime = #{finishTime,jdbcType=VARCHAR},
-    	  state = #{state,jdbcType=INTEGER},
-       finishState = #{finishState,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
 	
 	 <update id="updateByPrimaryKeySelective" parameterType="com.chen.model.Repair" >
-    update t_repair
+    update t_repair p
     <set >
       <if test="id != null" >
-        id = #{id,jdbcType=INTEGER},
+        p.id = #{id,jdbcType=INTEGER},
       </if>
-      <if test="equipmentId != null" >
-        equipmentId = #{equipmentId,jdbcType=INTEGER},
+       <if test="equipmentId != null" >
+        p.equipmentId = #{equipmentId,jdbcType=INTEGER},
       </if>
-      <if test="userMan != null" >
-        userMan = #{userMan,jdbcType=VARCHAR},
+       <if test="userMan != null and userMan !=''" >
+        p.userMan = #{userMan,jdbcType=VARCHAR},
       </if>
-        <if test="repairMan != null" >
-        repairMan = #{repairMan,jdbcType=VARCHAR},
+      <if test="repairMan != null and repairMan !=''" >
+        p.repairMan = #{repairMan,jdbcType=VARCHAR},
       </if>
-      <if test="repairTime != null" >
-        repairTime = #{repairTime,jdbcType=VARCHAR},
+       <if test="repairTime != null and repairTime != ''" >
+        p.repairTime = #{repairTime,jdbcType=VARCHAR},
       </if>
-        <if test="finishTime != null" >
-        finishTime = #{finishTime,jdbcType=VARCHAR},
+      <if test="finishTime != null and finishTime !=''" >
+        p.finishTime = #{finishTime,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
-        state = #{state,jdbcType=INTEGER},
+        p.state = #{state,jdbcType=INTEGER},
       </if>
-       <if test="finishState != null" >
-        finishState = #{finishState,jdbcType=INTEGER},
+        <if test="finishState != null" >
+        p.finishState = #{finishState,jdbcType=INTEGER},
+      </if>
+      <if test="description !=null and description != ''">
+      	 p.description = #{description,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where p.id = #{id,jdbcType=INTEGER};
+  
   </update>
-	
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_repair
-    where id = #{id,jdbcType=INTEGER}
+  <update id="updateEquStatus" parameterType="com.chen.model.Repair">
+    update t_equipment e 
+    <set>
+       <if test="state != null" >
+        e.state = #{state,jdbcType=INTEGER},
+      </if>
+       <if test="stateName != null and stateName !=''" >
+        e.stateName = #{stateName,jdbcType=INTEGER},
+      </if>
+    </set>
+    	where e.id = #{equipmentId,jdbcType=INTEGER};
+  </update>
+  <select id="isExistByEquId" parameterType="java.lang.Integer" resultMap="backMap">
+  	select p.equipmentId from t_repair p where p.equipmentId =#{equipmentId,jdbcType=INTEGER};
+  </select>
+  <delete id="deleteByEquId" parameterType="java.lang.Integer">
+  	delete from t_repair where equipmentId =#{equipmentId,jdbcType=INTEGER};
   </delete>
-	
-	
-	<delete id="deleteByIds" parameterType="Object[]">
-		delete from  t_repair where id in <foreach index="index" item="item" collection="array" separator="," open="(" close=")" >#{item}</foreach>
-	</delete>
 	 <!-- 查询总条数 ，结合分页使用-->
-	<select id="count" resultType="INTEGER">
-		SELECT COUNT(*) AS C FROM  t_repair p
+	<select id="count" resultType="INTEGER" parameterType="com.chen.model.Repair">
+		SELECT COUNT(*) AS C FROM  t_repair p, t_equipment e
+		<where>
+		 <if test="id != null" >
+         and  p.id = #{id,jdbcType=INTEGER}
+      </if>
+       <if test="equipmentId != null" >
+         and p.equipmentId = #{equipmentId,jdbcType=INTEGER}
+      </if>
+      
+       <if test="equipmentName != null and equipmentName !=''" >
+         and e.name LIKE  concat(concat('%',#{equipmentName,jdbcType=VARCHAR}),'%')
+      </if>
+       <if test="userMan != null and userMan !=''" >
+         and p.userMan LIKE  concat(concat('%', #{userMan,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="repairMan != null and repairMan !=''" >
+        and p.repairMan LIKE  concat(concat('%', #{repairMan,jdbcType=VARCHAR}),'%')
+      </if>
+
+      <if test="finishTime != null and finishTime !=''" >
+       and p.finishTime = #{finishTime,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+       and p.state = #{state,jdbcType=INTEGER}
+      </if>
+        <if test="finishState != null" >
+       and p.finishState = #{finishState,jdbcType=INTEGER}
+      </if>
+      <if test="description !=null and description != ''">
+      and p.description = #{description,jdbcType=VARCHAR}
+      </if>
+       <if test="timesta!=null and timesta!='' and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(p.repairTime,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="timesta!=null and timesta!='' and ( timeend==null || timeend=='')">
+     		 	and DATE_FORMAT(p.repairTime,'%Y-%m-%d') &gt;=#{timesta,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="(timesta==null || timesta=='') and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(p.repairTime,'%Y-%m-%d') &lt;= #{timeend,jdbcType=VARCHAR}
+     		 </if>
+       and p.equipmentId = e.id
+		</where>
 	</select>
 	<!-- 分页查询 -->
 	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
 		<include refid="mainSql"/>
+			<where>
+		 		<if test="param.id != null" >
+        		 and  p.id = #{param.id,jdbcType=INTEGER}
+     		 	</if>
+      			 <if test="param.equipmentId != null" >
+       			  and p.equipmentId = #{param.equipmentId,jdbcType=INTEGER}
+     			 </if>
+     			   <if test="param.equipmentName != null and param.equipmentName !=''" >
+        			 and e.name LIKE  concat(concat('%', #{param.equipmentName,jdbcType=VARCHAR}),'%')
+      			</if>
+       		    <if test="param.userMan != null and param.userMan !=''" >
+         		and p.userMan LIKE  concat(concat('%', #{param.userMan,jdbcType=VARCHAR}),'%')
+      			</if>
+     			 <if test="param.repairMan != null and param.repairMan !=''" >
+      			  and p.repairManLIKE  concat(concat('%', #{param.repairMan,jdbcType=VARCHAR}),'%')
+     			 </if>
+      			<if test="param.finishTime != null and param.finishTime !=''" >
+      			 and p.finishTime = #{param.finishTime,jdbcType=VARCHAR}
+     			 </if>
+     			 <if test="param.state != null" >
+      			 and p.state = #{param.state,jdbcType=INTEGER}
+     			 </if>
+       			 <if test="param.finishState != null" >
+      			 and p.finishState = #{param.finishState,jdbcType=INTEGER}
+      			</if>
+      			<if test="param.description !=null and param.description != ''">
+      			  and p.description = #{param.description,jdbcType=VARCHAR}
+     			 </if>
+     			  <if test="param.timesta!=null and param.timesta!='' and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(p.repairTime,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{param.timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="param.timesta!=null and param.timesta!='' and ( param.timeend==null || param.timeend=='')">
+     		 	and DATE_FORMAT(p.repairTime,'%Y-%m-%d') &gt;=#{param.timesta,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="(param.timesta==null || param.timesta=='') and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(p.repairTime,'%Y-%m-%d') &lt;= #{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+      			and p.equipmentId = e.id
+		</where>
  		   limit ${start},${rows}
 	</select>
 </mapper>

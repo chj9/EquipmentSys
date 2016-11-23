@@ -21,11 +21,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
 	   select *  from t_equipmenttype  where id =#{id,jdbcType=INTEGER}
 	</select>
-	<!-- 保存部门信息 -->
-	 <insert id="insert" parameterType="com.chen.model.EquipmentType" >
-    insert into t_equipmenttype (id, typeName, remark)
-    values (#{id,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
-  </insert>
 	
 	<insert id="insertSelective" parameterType="com.chen.model.EquipmentType" >
     insert into t_equipmenttype
@@ -33,10 +28,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="id != null" >
         id,
       </if>
-      <if test="typeName != null" >
+      <if test="typeName != null and typeName!=''" >
         typeName,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null and remark!=''" >
         remark,
       </if>
     </trim>
@@ -44,34 +39,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="typeName != null" >
+      <if test="typeName != null and typeName!=''" >
         #{typeName,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null and remark!=''" >
         #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-
-	
-	<update id="updateByPrimaryKey" parameterType="com.chen.model.EquipmentType" >
-    update t_equipmenttype
-    set id = #{id,jdbcType=INTEGER},
-      typeName = #{typeName,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-	
-	 <update id="updateByPrimaryKeySelective" parameterType="com.chen.model.EquipmentType" >
+ <update id="updateByPrimaryKeySelective" parameterType="com.chen.model.EquipmentType" >
     update t_equipmenttype
     <set >
       <if test="id != null" >
         id = #{id,jdbcType=INTEGER},
       </if>
-      <if test="typeName != null" >
+      <if test="typeName != null and typeName !=''" >
         typeName = #{typeName,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null and remark !=''" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
@@ -80,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_equipmenttype
-    where id = #{id,jdbcType=INTEGER}
+   				 where id = #{id,jdbcType=INTEGER}
   </delete>
 	
 	
@@ -89,11 +74,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	 <!-- 查询总条数 ，结合分页使用-->
 	<select id="count" resultType="INTEGER">
-		SELECT COUNT(*) AS C FROM  t_department p
+		SELECT COUNT(*) AS C FROM  t_equipmenttype p 
+		<where>
+			 <if test="id != null" >
+        	 	and id = #{id,jdbcType=INTEGER}
+     		 </if>
+     		 <if test="typeName != null and typeName !=''" >
+       			and typeName LIKE  concat(concat('%',#{typeName,jdbcType=VARCHAR}),'%')
+      		</if>
+     		 <if test="remark != null and remark !=''" >
+      			 and remark = #{remark,jdbcType=VARCHAR}
+     		 </if>
+		</where>
 	</select>
 	<!-- 分页查询 -->
 	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
 		<include refid="mainSql"/>
+			<where>
+			 <if test="param.id != null" >
+        	 and id = #{param.id,jdbcType=INTEGER}
+     		 </if>
+     		 <if test="param.typeName != null and param.typeName !=''" >
+       			and typeName LIKE  concat(concat('%',#{param.typeName,jdbcType=VARCHAR}),'%')
+      		</if>
+     		 <if test="param.remark != null and param.remark !=''" >
+      			 and remark = #{param.remark,jdbcType=VARCHAR}
+     		 </if>
+		</where>
  		   limit ${start},${rows}
 	</select>
 </mapper>

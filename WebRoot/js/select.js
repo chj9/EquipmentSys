@@ -58,4 +58,34 @@
 		}
 		
 	});
+	//设备类型下拉
+	$.ajax({
+		type:"post",
+		url:tem+'equipment/getTypeOption.do',	
+		dataType:"json",
+		success:function(data){
+			$("#typeId").combobox({
+		       	data:data,
+				panelHeight:'100px',
+		        valueField: "id",
+		        textField: "typeName",
+		        multiple:false,//禁止多选
+			});
+		}
+	});
+	//教室下拉
+	$.ajax({
+		type:"post",
+		url:tem+'equipment/getRoomOption.do',	
+		dataType:"json",
+		success:function(data){
+			$("#roomId").combobox({
+		       	data:data,
+				panelHeight:'100px',
+		        valueField: "id",
+		        textField: "text",
+		        multiple:false,//禁止多选
+			});
+		}
+	});
 });

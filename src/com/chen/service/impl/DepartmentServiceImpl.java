@@ -47,7 +47,7 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	@Override
 	public boolean update(Department department) {
 		try {
-			if(department==null){
+			if(department.getId()==null){
 				return false;
 			}
 		departmentDao.updateByPrimaryKeySelective(department);
@@ -55,6 +55,7 @@ public class DepartmentServiceImpl implements IDepartmentService{
 		
 		} catch (Exception e) {
 			logger.error("",e);
+			e.printStackTrace();
 			return false;
 	}
 	}

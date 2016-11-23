@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 
-public class Equipment implements Serializable{
+public class Equipment  implements Serializable{
 
 	/**
 	 * 
@@ -16,8 +16,29 @@ public class Equipment implements Serializable{
 	private Integer typeId; //设备类型id
 	private String typeName; //类型名称
 	private Integer state; // 设备状态 1 正常状态 2 维修状态 3 报废状态
+	private String stateName; // 设备状态 1 正常状态 2 维修状态 3 报废状态
+	private Integer roomId;
 	private String remark; //备注
+	private Integer equstatus;
 	
+	public Integer getEqustatus() {
+		return equstatus;
+	}
+	public void setEqustatus(Integer equstatus) {
+		this.equstatus = equstatus;
+	}
+	public Integer getRoomId() {
+		return roomId;
+	}
+	public void setRoomId(Integer roomId) {
+		this.roomId = roomId;
+	}
+	public String getStateName() {
+		return stateName;
+	}
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
 	public Integer getId() {
 		return id;
 	}

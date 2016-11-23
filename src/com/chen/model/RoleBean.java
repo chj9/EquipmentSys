@@ -2,7 +2,9 @@ package com.chen.model;
 
 import java.io.Serializable;
 
-public class RoleBean implements Serializable {
+import com.common.BaseBean;
+
+public class RoleBean extends BaseBean implements Serializable {
 	/**
 	 * 
 	 */
@@ -12,8 +14,7 @@ public class RoleBean implements Serializable {
 	private String create_at;
 	private String remark;
 	private Integer roleStatus; //1有效，0无效
-	private String timesta;
-	private String timeend;
+
 	
 	
 	public Integer getRoleStatus() {
@@ -22,18 +23,7 @@ public class RoleBean implements Serializable {
 	public void setRoleStatus(Integer roleStatus) {
 		this.roleStatus = roleStatus;
 	}
-	public String getTimesta() {
-		return timesta;
-	}
-	public void setTimesta(String timesta) {
-		this.timesta = timesta;
-	}
-	public String getTimeend() {
-		return timeend;
-	}
-	public void setTimeend(String timeend) {
-		this.timeend = timeend;
-	}
+
 	public String getCreate_at() {
 		return create_at;
 	}

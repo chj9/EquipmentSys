@@ -1,14 +1,17 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%> 
 <script type="text/javascript" src="${pageContext.request.contextPath}/user/js/user_table.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/select.js"></script>
 <div class="easyui-layout" data-options="fit:true">
     <!-- Begin of toolbar -->
     <div id="user-toolbar">
         <div class="wu-toolbar-button">
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addUser()" plain="true">添加</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="cancel()" plain="true">取消</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-print" onclick="openAdd()" plain="true">打印</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-help" onclick="openEdit()" plain="true">帮助</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addUser()" plain="true">添加新用户</a>
+            <a href="${pageContext.request.contextPath}/poi/getUserExcel.do" class="easyui-linkbutton" iconCls="icon-print" plain="true">导出Excel</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-help" onclick="help()" plain="true">帮助</a>
         </div>
         <hr>
         <!-- 搜索操作 -->
@@ -43,7 +46,7 @@
           	<input name="id"  class="easyui-textbox" type="hidden">
             <div style="margin-bottom:10px">
             <label>账号:&nbsp</label> 
-                <input name="userName" required="true" class="easyui-textbox"  style="width:135px">
+                <input name="userName" required="true"  class="easyui-textbox"  style="width:135px">
             </div>
              <div style="margin-bottom:10px">
              <label>密码:&nbsp</label> 
@@ -51,7 +54,7 @@
             </div>
              <div style="margin-bottom:10px">
              <label>别名:&nbsp</label> 
-                <input name="trueName" class="easyui-textbox"   style="width:135px">
+                <input name="trueName" required="true" class="easyui-textbox"   style="width:135px">
             </div>
             <div style="margin-bottom:10px">
             <label>部门:&nbsp</label> 

@@ -4,8 +4,11 @@ package com.chen.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +23,7 @@ import com.chen.util.PageUtil;
 
 @Service("userService")
 public class UserServiceImpl implements IUserService{
-
+	private static Logger logger = LogManager.getLogger(UserServiceImpl.class); 
 	@Autowired
 	private UserMapper userDao;
 	
@@ -114,6 +117,18 @@ public class UserServiceImpl implements IUserService{
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public List<User> getDataArray() {
+		try {
+			List<User> list = userDao.findAll();
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("",e);
+		}
+		return null;
 	}
 
 }

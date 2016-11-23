@@ -77,7 +77,16 @@ function sousuofeed(){
 	    }
 	 });
 	}
+
+function lookfeed(index){
+	$('#feed_table').datagrid('selectRow',index);// 关键在这里  
+	 var row = $('#feed_table').datagrid('getSelected');
+    if (row){
+    	$.messager.alert("来自"+row.userName+"的反馈内容",row.feedback);
+    }
+}
 //val指当前单元格的值,row,当前行对象,index当前行的索引
 function formatOper(val,row,index){  
-    return '<a href="javascript:void(0)" style="color: #0000FF" onclick="deleteFeed('+index+')">删除</a>';  
+    return '<a href="javascript:void(0)" style="color: #0000FF" onclick="deleteFeed('+index+')">删除</a>||'+
+    		'<a href="javascript:void(0)" style="color: #0000FF" onclick="lookfeed('+index+')">查看反馈内容</a>';  
 }  

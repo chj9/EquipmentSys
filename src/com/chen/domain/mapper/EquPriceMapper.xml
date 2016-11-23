@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.domain.EquPriceMapper">
+	<resultMap type="com.chen.model.EquPriceBean" id="backMap">	
+	   <id column="id" property="id" jdbcType="INTEGER" />
+	   <result column="equName" property="equName" />
+	   <result column="price" property="price"/>
+	   <result column="brand" property="brand"/>
+	   <result column="model" property="model" />
+	   <result column="unit" property="unit"/>
+	   <result column="width" property="width"/>
+	   <result column="high" property="high"/>
+	   <result column="weight" property="weight" />
+	   <result column="power" property="power"/>
+	   <result column="electricity" property="electricity"/>
+	   <result column="create_time" property="create_time"/>
+	   <result column="create_man" property="create_man"/>
+	   <result column="remark" property="remark"/>
+	</resultMap>
+  
+	<sql id="Base_Column_List" >
+     e.id,e.equName, e.price,e.brand,e.model,e.unit,
+     e.width,e.high,e.weight,e.power,e.electricity,e.create_time,e.create_man,e.remark
+	</sql> 
+	<sql id="mainSql">
+ 	SELECT 
+	 <include refid="Base_Column_List"/>
+ 	FROM  t_equ_price e
+ 	</sql>   
+	<select id="findAll" resultMap="backMap">
+		<include refid="mainSql"/>
+	</select>
+	<insert id="insertSelective" parameterType="com.chen.model.EquPriceBean" >
+    insert into t_equ_price
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="equName != null and equName != ''" >
+        equName,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+       <if test="brand != null and brand !=''" >
+        brand,
+      </if>
+      <if test="model != null and model != ''" >
+        model,
+      </if>
+      <if test="unit != null and unit != ''" >
+        unit,
+      </if>
+       <if test="width != null" >
+        width,
+      </if>
+      <if test="high != null" >
+        high,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+       <if test="power != null" >
+        power,
+      </if>
+       <if test="electricity != null" >
+        electricity,
+      </if>
+       <if test="create_time != null and create_time != ''" >
+        create_time,
+      </if>
+       <if test="create_man != null and create_man !=''" >
+        create_man,
+      </if>
+       <if test="remark != null and remark !=''" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       <if test="id != null" >
+        #{id},
+      </if>
+      <if test="equName != null and equName != ''" >
+         #{equName},
+      </if>
+      <if test="price != null" >
+         #{price},
+      </if>
+       <if test="brand != null and brand != ''" >
+         #{brand},
+      </if>
+      <if test="model != null and model != ''" >
+         #{model},
+      </if>
+      <if test="unit != null and unit != ''" >
+        #{unit},
+      </if>
+       <if test="width != null" >
+         #{width},
+      </if>
+      <if test="high != null" >
+         #{high},
+      </if>
+      <if test="weight != null" >
+        #{weight},
+      </if>
+       <if test="power != null" >
+        #{power},
+      </if>
+       <if test="electricity != null" >
+        #{electricity},
+      </if>
+       <if test="create_time != null and create_time != ''" >
+         #{create_time},
+      </if>
+       <if test="create_man != null and create_man !=''" >
+         #{create_man},
+      </if>
+       <if test="remark != null and remark !=''" >
+         #{remark},
+      </if>	
+    </trim>
+  </insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.chen.model.EquPriceBean" >
+    update t_equ_price
+    <set >
+		 <if test="id != null" >
+        id = #{id},
+      </if>
+      <if test="equName != null and equName != ''" >
+        equName= #{equName},
+      </if>
+      <if test="price != null" >
+        price= #{price},
+      </if>
+       <if test="brand != null and brand != ''" >
+        brand = #{brand},
+      </if>
+      <if test="model != null and model != ''" >
+        model= #{model},
+      </if>
+      <if test="unit != null and unit != ''" >
+       unit= #{unit},
+      </if>
+       <if test="width != null" >
+       width =  #{width},
+      </if>
+      <if test="high != null" >
+        high = #{high},
+      </if>
+      <if test="weight != null" >
+       weight = #{weight},
+      </if>
+       <if test="power != null" >
+       power = #{power},
+      </if>
+       <if test="electricity != null" >
+       electricity = #{electricity},
+      </if>
+       <if test="create_time != null and create_time != ''" >
+        create_time = #{create_time},
+      </if>
+       <if test="create_man != null and create_man !=''" >
+         create_man = #{create_man},
+      </if>
+       <if test="remark != null and remark !=''" >
+        remark = #{remark},
+      </if>	
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+		delete from t_equ_price   where id = #{id,jdbcType=INTEGER}
+  </delete>
+	 <!-- 查询总条数 ，结合分页使用-->
+	<select id="count" resultType="INTEGER" parameterType="com.chen.model.EquPriceBean">
+		SELECT COUNT(*) AS C FROM  t_equ_price 
+	<where>
+		<if test="id != null" >
+       		and id = #{id}
+      	</if>
+      	<if test="equName != null and equName != ''" >
+      		and  equName= #{equName}
+      	</if>
+      	<if test="price != null" >
+      		and  price= #{price}
+      	</if>
+       	<if test="brand != null and brand != ''" >
+      		and  brand = #{brand}
+      	</if>
+      	<if test="model != null and model != ''" >
+      		and  model= #{model}
+      	</if>
+      	<if test="unit != null and unit != ''" >
+      		and unit= #{unit}
+      	</if>
+       <if test="width != null" >
+     		and  width =  #{width}
+      	</if>
+      	<if test="high != null" >
+      		and  high = #{high}
+      	</if>
+        <if test="weight != null" >
+       		and weight = #{weight}
+        </if>
+        <if test="power != null" >
+        	and power = #{power}
+     	 </if>
+        <if test="electricity != null" >
+      		and electricity = #{electricity}
+     	 </if>
+       	<if test="create_man != null and create_man !=''" >
+          and create_man = #{create_man}
+     	 </if>
+      	 <if test="remark != null and remark !=''" >
+       			and remark = #{remark}
+     	</if>	
+     	<if test="timesta!=null and timesta!='' and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{timeend,jdbcType=VARCHAR}
+     	</if>
+     	<if test="timesta!=null and timesta!='' and ( timeend==null || timeend=='')">
+     		 	and DATE_FORMAT(create_time,'%Y-%m-%d') &gt;=#{timesta,jdbcType=VARCHAR}
+     	</if>
+     	<if test="(timesta==null || timesta=='') and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(create_time,'%Y-%m-%d') &lt;= #{timeend,jdbcType=VARCHAR}
+     	</if>
+
+		</where>
+	</select>
+	<!-- 分页查询 -->
+	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
+		<include refid="mainSql"/>
+		<where>
+		<if test="param.id != null" >
+       		and e.id = #{param.id}
+      	</if>
+      	<if test="param.equName != null and param.equName!=''" >
+      		and  e.equName= #{param.equName}
+      	</if>
+      	<if test="param.price != null" >
+      		and  e.price= #{param.price}
+      	</if>
+       	<if test="param.brand != null and param.brand != ''" >
+      		and  e.brand = #{param.brand}
+      	</if>
+      	<if test="param.model != null and param.model != ''" >
+      		and  e.model= #{param.model}
+      	</if>
+      	<if test="param.unit != null and param.unit != ''" >
+      		and e.unit= #{param.unit}
+      	</if>
+       <if test="param.width != null" >
+     		and  e.width =  #{param.width}
+      	</if>
+      	<if test="param.high != null" >
+      		and  e.high = #{param.high}
+      	</if>
+        <if test="param.weight != null" >
+       		and e.weight = #{param.weight}
+        </if>
+        <if test="param.power != null" >
+        	and e.power = #{param.power}
+     	 </if>
+        <if test="param.electricity != null" >
+      		and e.electricity = #{param.electricity}
+     	 </if>
+       	<if test="param.create_man != null and param.create_man !=''" >
+          and e.create_man = #{create_man}
+     	 </if>
+      	 <if test="param.remark != null and param.remark !=''" >
+       			and e.remark = #{param.remark}
+     	</if>	
+     	<if test="param.timesta!=null and param.timesta!='' and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(e.create_time,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{param.timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{param.timeend,jdbcType=VARCHAR}
+     	</if>
+     	<if test="param.timesta!=null and param.timesta!='' and ( param.timeend==null || param.timeend=='')">
+     		 	and DATE_FORMAT(e.create_time,'%Y-%m-%d') &gt;=#{param.timesta,jdbcType=VARCHAR}
+     	</if>
+     	<if test="(param.timesta==null || param.timesta=='') and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(create_time,'%Y-%m-%d') &lt;= #{param.timeend,jdbcType=VARCHAR}
+     	</if>
+		</where>
+ 		       limit ${start},${rows}
+	</select>
+
+</mapper>

@@ -4,7 +4,9 @@ package com.chen.model;
 
 import java.io.Serializable;
 
-public class Repair implements Serializable{
+import com.common.BaseBean;
+
+public class Repair extends BaseBean implements Serializable{
 	/**
 	 * 
 	 */
@@ -17,9 +19,31 @@ public class Repair implements Serializable{
 	private String repairMan;  // 维修人
 	private String repairTime; // 报修时间
 	private String finishTime;  // 处理完成时间
-	private Integer state;// 最终设备状态 1 维修成功 2 设备报废、
-	private Integer finishState;// 1 未处理完 2 处理完毕
+	private String description ; //损坏描述
+	private Integer state;// 最终设备状态 1 正常 2、维修中、3 报废、
+	private String stateName;// 最终设备状态 1 正常 2、维修中、3 报废、
+	private Integer finishState;// 0 未处理完 1 处理中2处理完毕
 	
+	private String remark;
+	
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getStateName() {
+		return stateName;
+	}
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public Integer getId() {
 		return id;
 	}

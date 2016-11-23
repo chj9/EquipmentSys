@@ -2,21 +2,22 @@ package com.chen.service;
 
 
 
-import java.util.List;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import com.chen.model.EquipmentType;
+import com.chen.model.PageBean;
 
 public interface IEquipmentTypeService {
 
-	public List<EquipmentType> findAll();
+	public JSONArray  getTypeOption();
 	
-	public int count();
+	public boolean addType(EquipmentType equipmentType);
 	
-	public void add(EquipmentType equipmentType);
+	public boolean updateType(EquipmentType equipmentType);
 	
-	public void update(EquipmentType equipmentType);
+	public boolean deleteType(Integer id);
 	
-	public void delete(int id);
-	
-	public EquipmentType loadById(int id);
+	public JSONObject getTypeList(PageBean page,EquipmentType type);
 }

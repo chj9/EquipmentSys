@@ -5,7 +5,7 @@ $(function(){
 function load_dept_data(){
 	$('#dept_table').datagrid({
 		url:tem+'department/list.do',
-		queryParams:{userSta:1},
+		queryParams:{deptStatus:1},
 		method: 'POST',
 		rownumbers:true,
 		singleSelect: true,
@@ -34,13 +34,13 @@ function load_dept_data(){
 }
 
 function adddept(){
-	$('#userdlg').dialog('open').dialog('center').dialog('setTitle','添加新客户');
-    $('#userfm').form('clear');
-	url = tem+'user/addUser.do';
+	$('#deptdlg').dialog('open').dialog('center').dialog('setTitle','添加新部门');
+    $('#deptfm').form('clear');
+	url = tem+'department/save.do';
 }
 
-function saveUser(){
-    $('#userfm').form('submit',{
+function saveDept(){
+    $('#deptfm').form('submit',{
         url: url,
         onSubmit: function(){
             return $(this).form('validate');
@@ -53,8 +53,8 @@ function saveUser(){
                     msg: result.errorMsg
                 });
             } else if (result.success){
-            	$('#userdlg').dialog('close');       // close the dialog
-                $('#user_table').datagrid('reload');    // reload the user data
+            	$('#deptdlg').dialog('close');       // close the dialog
+                $('#dept_table').datagrid('reload');    // reload the user data
           }
        }
     });
@@ -62,28 +62,28 @@ function saveUser(){
 
 function editdept (index) {
 
-	$('#userdlg').dialog('open').dialog('center').dialog('setTitle','编辑用户信息');
+	$('#deptdlg').dialog('open').dialog('center').dialog('setTitle','编辑部门信息');
 
-		$('#user_table').datagrid('selectRow',index);// 关键在这里  
-	    var row = $('#user_table').datagrid('getSelected');  
+		$('#dept_table').datagrid('selectRow',index);// 关键在这里  
+	    var row = $('#dept_table').datagrid('getSelected');  
             if (row){
-                $('#userdlg').dialog('open').dialog('center').dialog('setTitle','编辑用户信息');
-                $('#userfm').form('load',row);
-                url = tem+'user/edit.do';
+                $('#deptdlg').dialog('open').dialog('center').dialog('setTitle','编辑部门信息');
+                $('#deptfm').form('load',row);
+                url = tem+'department/update.do';
             }else{
             	$.messager.alert("提示","请选择一行!");
             }
     	}
 function deletedept(index){
-	$('#user_table').datagrid('selectRow',index);// 关键在这里  
-	 var row = $('#user_table').datagrid('getSelected');
+	$('#dept_table').datagrid('selectRow',index);// 关键在这里  
+	 var row = $('#dept_table').datagrid('getSelected');
      if (row){
          $.messager.confirm('提示','你确定要删除用户么?',function(r){
              if (r){
-                 $.post(tem+'user/delete.do',{id:row.id},function(result){
+                 $.post(tem+'department/delete.do',{id:row.id},function(result){
              
                  	if (result.success){
-                         $('#user_table').datagrid('reload');    // reload the user data
+                         $('#dept_table').datagrid('reload');    // reload the user data
                      } else {
                          $.messager.show({    // show error message
                              title: 'Error',
@@ -99,9 +99,9 @@ function deletedept(index){
 }
 
 function sousuoDept(){
-	  $('#sousuo').form('load',{userSta:1});
-	 url = tem+'user/list.do';	 
-	 $('#sousuo').form('submit',{
+	  $('#sousuo_dept').form('load',{deptStatus:1});
+	 url = tem+'department/list.do';	 
+	 $('#sousuo_dept').form('submit',{
 	     url: url,
 	     onSubmit: function(){
 	         return $(this).form('validate');
@@ -114,21 +114,21 @@ function sousuoDept(){
 	                 msg: result.errorMsg
 	             });
 	          } else{
-	             $('#user_table').datagrid('loadData',result);    // loadData the datagrid
+	             $('#dept_table').datagrid('loadData',result);    // loadData the datagrid
 	       }
 	    }
 	 });
 	}
-function editStatus(index,userSta,str){
-	$('#user_table').datagrid('selectRow',index);// 关键在这里  
-	 var row = $('#user_table').datagrid('getSelected');
+function editStatus(index,deptStatus,str){
+	$('#dept_table').datagrid('selectRow',index);// 关键在这里  
+	 var row = $('#dept_table').datagrid('getSelected');
      if (row){
          $.messager.confirm('提示',str,function(r){
              if (r){
-                 $.post(tem+'user/edit.do',{id:row.id,userSta:userSta},function(result){
+                 $.post(tem+'department/update.do',{id:row.id,deptStatus:deptStatus,sta:1},function(result){
              
                  	if (result.success){
-                         $('#user_table').datagrid('reload');    // reload the user data
+                         $('#dept_table').datagrid('reload');    // reload the user data
                      } else {
                          $.messager.show({    // show error message
                              title: 'Error',
@@ -139,7 +139,7 @@ function editStatus(index,userSta,str){
              }
          });
      }else{
-     	$.messager.alert("提示","请选择用户!");
+     	$.messager.alert("提示","请选择部门!");
      }
 }
 

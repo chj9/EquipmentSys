@@ -1,8 +1,13 @@
 eclipse.preferences.version=1
+encoding//WebRoot/department/recyc_dept.jsp=UTF-8
+encoding//WebRoot/equipment/equipment_box.jsp=UTF-8
+encoding//WebRoot/equipment/equipment_list.jsp=UTF-8
+encoding//WebRoot/equipment/equipment_type.jsp=UTF-8
 encoding//WebRoot/login_log.jsp=UTF-8
 encoding//WebRoot/user/feedback.jsp=UTF-8
 encoding//WebRoot/user/recyc_user.jsp=UTF-8
 encoding//WebRoot/user/role_list.jsp=UTF-8
+encoding//WebRoot/user/use_value.jsp=UTF-8
 encoding//WebRoot/user/user_list.jsp=UTF-8
 encoding//src/com/chen/model/Equipment.java=UTF-8
 encoding//src/com/chen/util/StringUtil.java=UTF-8

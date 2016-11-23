@@ -102,15 +102,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      	 	<if test="roleName != null  and roleName!=''" >
       			and roleName = #{roleName,jdbcType=VARCHAR}
      		 </if>
-      		 <if test="create_at != null  and create_at!=''" >
-      			and create_at = #{create_at,jdbcType=VARCHAR}
-     		 </if>
       		<if test="remark != null and remark!=''" >
        			and remark = #{remark,jdbcType=VARCHAR}
      		 </if>
      		 <if test="roleStatus != null" >
       			and roleStatus = #{roleStatus,jdbcType=INTEGER}
      		 </if>
+     		   <if test="timesta!=null and timesta!='' and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{timeend,jdbcType=VARCHAR}
+      		</if>
+     		<if test="timesta!=null and timesta!='' and ( timeend==null || timeend=='')">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d') &gt;=#{timesta,jdbcType=VARCHAR}
+     		</if>
+     		<if test="(timesta==null || timesta=='') and timeend!=null and timeend!=''">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d') &lt;= #{timeend,jdbcType=VARCHAR}
+     		</if>
 		</where>
 	</select>
 	<!-- 分页查询 -->
@@ -123,13 +133,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      	  	 <if test="param.roleName != null and param.roleName!=''" >
       			and roleName = #{param.roleName,jdbcType=VARCHAR}
      		 </if>
-      		 <if test="param.create_at != null and param.create_at!=''" >
-      			and create_at = #{param.create_at,jdbcType=VARCHAR}
-     		 </if>
       		<if test="param.remark != null and param.remark!=''" >
        			and remark = #{param.remark,jdbcType=VARCHAR}
      		 </if>
-     		   <if test="param.timesta!=null and param.timesta!='' and ( param.timeend==null || param.timeend=='')">
+ 			<if test="param.timesta!=null and param.timesta!='' and param.timeend!=null and param.timeend!=''">
+     		 	and DATE_FORMAT(create_at,'%Y-%m-%d %H:%i:%s')  
+     		 	BETWEEN 
+     		 	#{param.timesta,jdbcType=VARCHAR} 
+     		 	AND 
+     		 	#{param.timeend,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="param.timesta!=null and param.timesta!='' and ( param.timeend==null || param.timeend=='')">
      		 	and DATE_FORMAT(create_at,'%Y-%m-%d') &gt;=#{param.timesta,jdbcType=VARCHAR}
      		 </if>
      		  <if test="(param.timesta==null || param.timesta=='') and param.timeend!=null and param.timeend!=''">

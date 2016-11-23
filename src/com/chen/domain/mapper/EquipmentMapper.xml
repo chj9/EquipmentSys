@@ -11,26 +11,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  <result column="typeId" property="typeId" jdbcType="INTEGER"/>
 	 <result column="typeName" property="typeName" jdbcType="VARCHAR"/>
 	  <result column="state" property="state" jdbcType="INTEGER"/>
+	    <result column="roomId" property="roomId" jdbcType="INTEGER"/>
+	  <result column="stateName" property="stateName" jdbcType="VARCHAR"/>
 	 <result column="remark" property="remark" jdbcType="VARCHAR"/>
+	 <result column="equstatus" property="equstatus" jdbcType="INTEGER"/>
 	</resultMap>
+ 
+<sql id="Base_Column_List" >
+    e.id,e.name,e.no,e.typeId,t.typeName,e.state,e.roomId,e.stateName,e.remark,e.equstatus
+</sql> 
     
  <sql id="mainSql">
- 	SELECT * FROM  t_equipment p
+ 	SELECT 
+ 	<include refid="Base_Column_List"/>
+ 	 FROM  t_equipment e,t_equipmenttype t
  </sql>   
  
 	<select id="findAll" resultMap="backMap">
 		<include refid="mainSql"/>
+		<where>
+		 and e.typeId = t.id
+		</where>
 	</select>
 	
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer">
-	   select *   from t_equipment where id =#{id,jdbcType=INTEGER}
+	 	 <include refid="mainSql"/>
+	   		where e.id =#{id,jdbcType=INTEGER}
 	</select>
-	<!-- 保存部门信息 -->
-	 <insert id="insert" parameterType="com.chen.model.Equipment" >
-    insert into t_equipment (id, name,no,typeId,state,remark)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},#{no,jdbcType=VARCHAR},
-    		#{typeId,jdbcType=INTEGER},#{state,jdbcType=INTEGER},#{remark,jdbcType=VARCHAR})
-  </insert>
 	
 	<insert id="insertSelective" parameterType="com.chen.model.Equipment" >
     insert into t_equipment
@@ -38,10 +45,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="id != null" >
         id,
       </if>
-      <if test="name != null" >
+      <if test="name != null and name !=''" >
         name,
       </if>
-      <if test="no != null" >
+      <if test="no != null and no !=''" >
         no,
       </if>
        <if test="typeId != null" >
@@ -50,18 +57,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="state != null" >
         state,
       </if>
-        <if test="remark != null" >
+        <if test="stateName != null and stateName !=''" >
+        stateName,
+      </if>
+        <if test="roomId != null" >
+        roomId,
+      </if>
+        <if test="remark != null and remark!=''" >
         remark,
+      </if>
+       <if test="equstatus != null" >
+        equstatus,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+     <if test="name != null and name !=''" >
         #{name,jdbcType=VARCHAR},
       </if>
-       <if test="no != null" >
+       <if test="no != null and no !=''" >
         #{no,jdbcType=VARCHAR},
       </if>
       <if test="typeId != null" >
@@ -70,23 +86,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="state != null" >
         #{state,jdbcType=INTEGER},
       </if>
-      <if test="remark != null" >
+       <if test="stateName != null and stateName !=''" >
+         #{stateName,jdbcType=VARCHAR},
+      </if>
+        <if test="roomId != null" >
+         #{roomId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null and remark!=''" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="equstatus != null" >
+        #{equstatus,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-
-	
-	<update id="updateByPrimaryKey" parameterType="com.chen.model.Equipment" >
-    update t_equipment
-    set id = #{id,jdbcType=INTEGER},
-   	   name = #{name,jdbcType=VARCHAR},
-      no = #{no,jdbcType=VARCHAR},
-      typeId = #{typeId,jdbcType=INTEGER},
-      state = #{state,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
 	
 	 <update id="updateByPrimaryKeySelective" parameterType="com.chen.model.Equipment" >
     update t_equipment
@@ -94,10 +107,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       <if test="id != null" >
         id = #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+      <if test="name != null and name !=''" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="no != null" >
+      <if test="no != null and no !=''" >
         no = #{no,jdbcType=VARCHAR},
       </if>
         <if test="typeId != null" >
@@ -106,8 +119,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
       </if>
-      <if test="remark != null" >
+      <if test="stateName != null and stateName !=''" >
+        stateName = #{stateName,jdbcType=VARCHAR},
+      </if>
+        <if test="roomId != null" >
+       roomId = #{roomId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null and remark !=''" >
         remark = #{remark,jdbcType=VARCHAR},
+      </if>
+       <if test="equstatus != null" >
+        equstatus = #{equstatus,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -123,13 +145,78 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from  t_equipment where id in <foreach index="index" item="item" collection="array" separator="," open="(" close=")" >#{item}</foreach>
 	</delete>
 	 <!-- 查询总条数 ，结合分页使用-->
-	<select id="count" resultType="INTEGER">
-		SELECT COUNT(*) AS C FROM  t_equipment p
+	<select id="count" resultType="INTEGER" parameterType="com.chen.model.Equipment">
+		SELECT COUNT(*) AS C FROM  t_equipment e
+		<where>
+			  <if test="id != null" >
+       			and e.id = #{id,jdbcType=INTEGER}
+      		</if>
+      		<if test="name != null and name !=''" >
+       			and e.name LIKE  concat(concat('%',#{name,jdbcType=VARCHAR}),'%') 
+     		 </if>
+     		 <if test="no != null and no !=''" >
+       			and e.no = #{no,jdbcType=VARCHAR}
+     		 </if>
+        	<if test="typeId != null" >
+       			and e.typeId = #{typeId,jdbcType=INTEGER}
+     		 </if>
+       		 <if test="state != null" >
+        		and e.state = #{state,jdbcType=INTEGER}
+     		 </if>
+     		 <if test="stateName != null and stateName !=''" >
+        		and e.stateName = #{stateName,jdbcType=VARCHAR}
+      		</if>
+       		 <if test="roomId != null" >
+      			and e.roomId = #{roomId,jdbcType=INTEGER}
+     		 </if>
+      		<if test="remark != null and remark !=''" >
+        		and e.remark = #{remark,jdbcType=VARCHAR}
+     		 </if>
+     		 <if test="equstatus != null" >
+        		and e.equstatus = #{equstatus,jdbcType=INTEGER}
+     		 </if>
+		</where>
 	</select>
 	<!-- 分页查询 -->
 	<select id="findPageByParam" parameterType="java.util.Map" resultMap="backMap">
 		<include refid="mainSql"/>
+		<where>
+			  <if test="param.id != null" >
+       			and e.id = #{param.id,jdbcType=INTEGER}
+      		</if>
+      		<if test="param.name != null and param.name !=''" >
+       			and e.name LIKE  concat(concat('%',#{param.name,jdbcType=VARCHAR}),'%') 
+     		 </if>
+     		 <if test="param.no != null and param.no !=''" >
+       			and e.no = #{param.no,jdbcType=VARCHAR}
+     		 </if>
+        	<if test="param.typeId != null" >
+       			and e.typeId = #{param.typeId,jdbcType=INTEGER}
+     		 </if>
+       		 <if test="param.state != null" >
+        		and e.state = #{param.state,jdbcType=INTEGER}
+     		 </if>
+     		 <if test="param.stateName != null and param.stateName !=''" >
+        		and e.stateName = #{param.stateName,jdbcType=VARCHAR}
+      		</if>
+       		 <if test="param.roomId != null" >
+      			and e.roomId = #{param.roomId,jdbcType=INTEGER}
+     		 </if>
+      		<if test="param.remark != null and param.remark !=''" >
+        		and e.remark = #{param.remark,jdbcType=VARCHAR}
+     		 </if>
+     		 <if test="param.remark != null and param.remark !=''" >
+        		and e.remark = #{param.remark,jdbcType=VARCHAR}
+     		 </if>
+     		  <if test="param.equstatus != null " >
+        		and e.equstatus = #{param.equstatus,jdbcType=INTEGER}
+     		 </if>
+     		 and e.typeId = t.id
+		</where>
  		   limit ${start},${rows}
+	</select>
+	<select id="isExistequByTypeId" resultType="INTEGER" parameterType="java.lang.Integer">
+		SELECT COUNT(*) AS C FROM  t_equipment e  where  typeId = #{typeId,jdbcType=INTEGER}
 	</select>
 </mapper>
 

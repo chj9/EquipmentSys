@@ -11,11 +11,11 @@
             <div id="tianjia" class="wu-toolbar-button">
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="addRole()" plain="true">添加</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-reload" onclick="javascript:$('#role_table').datagrid('reload')" plain="true">刷新</a>
-                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-help" onclick="openEdit()" plain="true">帮助</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-help" onclick="help()" plain="true">帮助</a>
             </div>
             <div class="wu-toolbar-search">
             	<form id="sousuoRole" method="post" novalidate style="margin:0;padding:0px 0px">
-               	<input name="roleStatus" type="hidden" class="easyui-combobox">
+               	<input name="roleStatus" type="hidden">
                 <label>起始时间：</label>
                 <input id="timesta" name="timesta" class="easyui-datebox" style="width:100px">
                 <label>结束时间：</label>
@@ -38,11 +38,11 @@
         <table>
             <tr>
                 <td width="60" align="right">角色:</td>
-                <td><input type="text" name="roleName" class="wu-text" /></td>
+                <td><input type="text" name="roleName" class="easyui-textbox" /></td>
             </tr>
             <tr>
                 <td align="right">备注:</td>
-                <td><input type="text" name="remark" class="wu-text" /></td>
+                <td><input type="text" name="remark" class="easyui-textbox" /></td>
             </tr>
             <tr>
                 <td valign="top" align="right">权限:</td>

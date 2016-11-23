@@ -5,8 +5,8 @@
     <div id="dept-toolbar">
         <div class="wu-toolbar-button">
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="adddept()" plain="true">添加</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dept_table').datagrid('reload')" plain="true">刷新</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-help" onclick="openEdit()" plain="true">帮助</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-refresh" onclick="javascript:$('#dept_table').datagrid('reload')" plain="true">刷新</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-help" onclick="help()" plain="true">帮助</a>
         </div>
         <hr>
         <!-- 搜索操作 -->
@@ -27,11 +27,12 @@
     <table id="dept_table" class="easyui-datagrid" toolbar="#dept-toolbar"></table>
 </div>
 <!-- Begin of easyui-dialog -->
-   <div id="deptdlg" class="easyui-dialog" style="width:300px;height:auto;"  data-options="iconCls:'icon-save',modal:true" closed=true buttons="#dlg-dept-buttons">
-        <form id="deptfm" method="post" novalidate style="margin:0;padding:20px 50px">
+   <div id="deptdlg" class="easyui-dialog" style="width:400px;height:auto;"  data-options="iconCls:'icon-save',modal:true" closed=true buttons="#dlg-dept-buttons">
+        <form id="deptfm" method="post" novalidate style="margin:0;padding:0px 0px">
            <table>
+               <input type="hidden" name="id" />
             <tr>
-                <td width="60" align="right">部门名称:</td>
+                <td width="90" align="right">部门名称:</td>
                 <td><input type="text" name="deptName" class="wu-text" /></td>
             </tr>
             <tr>
